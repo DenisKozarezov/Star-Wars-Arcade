@@ -22,13 +22,16 @@ namespace Core.Units
     {
         private Vector2 _initPosition;
         private Vector3 _target;
-        private readonly float _velocity;
-        private readonly float _rotationSpeed;
+        private Vector2 _currentPosition;
+        private float _velocity;
+        private float _rotationSpeed;
+        private float _deacceleration;
 
         public EnemyPatrolState(IStateMachine<EnemyView> stateMachine, EnemySettings settings) : base(stateMachine) 
         {
             _velocity = settings.EnemyModel.Velocity;
             _rotationSpeed = settings.EnemyModel.RotationSpeed;
+            _deacceleration = settings.EnemyModel.Deacceleration;
         }
 
         private Vector3 GetRandomDestination()
@@ -37,7 +40,7 @@ namespace Core.Units
         }
         private bool HasReachedDestination()
         {
-            return (_target - Context.transform.position).sqrMagnitude <= 1f;
+            return (_target - Context.transform.position).sqrMagnitude <= 1E-02;
         }
 
         public override void Enter()
@@ -53,11 +56,14 @@ namespace Core.Units
         {
             if (!HasReachedDestination())
             {
-                Vector2 direction = _target - Context.transform.position;
+                Vector3 direction = _target - Context.transform.position;
                 float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 90f;
                 Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 Context.transform.rotation = Quaternion.Slerp(Context.transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
-                Context.transform.Translate(direction * _velocity * Time.deltaTime);
+                Context.transform.position = Vector2.SmoothDamp(Context.transform.position, Context.transform.position + direction * _velocity, ref _currentPosition, _deacceleration, _velocity);
+#if UNITY_EDITOR
+                Debug.DrawLine(Context.transform.position, _target, Color.yellow);
+#endif
             }
             else _target = GetRandomDestination();
         }

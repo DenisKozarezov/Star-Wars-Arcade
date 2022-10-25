@@ -15,7 +15,7 @@ MonoBehaviour:
   _displayName: X-wing
   _description: 
   _health: 5
-  _velocity: 2.89
+  _velocity: 8.2
   _rotationSpeed: 5
   _deacceleration: 0.3
   _prefabPath: Prefabs/Units/X-wing

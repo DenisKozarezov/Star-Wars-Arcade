@@ -15,9 +15,8 @@ MonoBehaviour:
   _displayName: TIE Fighter
   _description: 
   _health: 1
-  _velocity: 2
+  _velocity: 6
   _rotationSpeed: 3
   _deacceleration: 0.3
   _prefabPath: Prefabs/Units/TIE Fighter
   _score: 15
-  _experience: 0

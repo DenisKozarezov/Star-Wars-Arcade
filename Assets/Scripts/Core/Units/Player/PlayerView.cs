@@ -34,7 +34,9 @@ namespace Core
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _settings.PlayerModel.RotationSpeed);
 
             // Movement
-            transform.position = Vector3.SmoothDamp(transform.position, transform.position + (Vector3)_inputSystem.Direction * _settings.PlayerModel.Velocity, ref _currentPosition, _settings.PlayerModel.Deacceleration);
+            float velocity = _settings.PlayerModel.Velocity;
+            float deacceleration = _settings.PlayerModel.Deacceleration;
+            transform.position = Vector3.SmoothDamp(transform.position, transform.position + (Vector3)_inputSystem.Direction * velocity, ref _currentPosition, deacceleration, velocity);
         }
 
         public void Kill()

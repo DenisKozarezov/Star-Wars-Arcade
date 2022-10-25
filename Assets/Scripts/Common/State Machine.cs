@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public interface IState<T>
+    public interface IState<T> where T : MonoBehaviour
     {
         void Enter();
         void Exit();

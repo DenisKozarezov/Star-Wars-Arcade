@@ -4,6 +4,7 @@ using TMPro;
 
 namespace Core.UI
 {
+    [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class GameTimer : MonoBehaviour
     {

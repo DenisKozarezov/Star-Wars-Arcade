@@ -43,13 +43,8 @@ namespace Core
             bool xBoundResult = Mathf.Abs(worldPosition.x) > Mathf.Abs(_collider.bounds.min.x);
             bool yBoundResult = Mathf.Abs(worldPosition.y) > Mathf.Abs(_collider.bounds.min.y);
 
-            if (xBoundResult && yBoundResult) 
-                return Vector2.Scale(worldPosition, Vector2.one * -1f);
-            else if (xBoundResult) 
-                return new Vector2(worldPosition.x * -1f, worldPosition.y);
-            else if (yBoundResult) 
-                return new Vector2(worldPosition.x, worldPosition.y * -1f);
-            
+            if (xBoundResult) worldPosition.x *= -1f;
+            if (yBoundResult) worldPosition.y *= -1f;
             return worldPosition;
         }
         private void UpdateBounds()

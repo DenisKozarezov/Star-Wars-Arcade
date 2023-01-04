@@ -4,6 +4,10 @@ namespace Core
     {
         public const int PlayerLayer = 6;
         public const int EnemyLayer = 7;
-        public const float BulletVelocity = 28f;
+
+        public struct Scenes
+        {
+            public const string GameScene = "Game";
+        }
     }
 }

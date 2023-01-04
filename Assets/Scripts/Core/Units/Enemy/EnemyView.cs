@@ -1,61 +1,34 @@
 using System;
 using UnityEngine;
 using Zenject;
-using Core.Infrastructure.Signals;
 
 namespace Core.Units
 {
-    public interface IEnemyFactory : IFactory<EnemyView> { }
-    public interface IEnemy : IUnit
+    public class EnemyView : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable, ITransformable
     {
+        [field: SerializeField] public Transform FirePoint { get; private set; }
 
-    }
-
-    public class EnemyView : MonoBehaviour, IPoolable<IMemoryPool>, IDisposable, IEnemy
-    {
         private IMemoryPool _pool;
-        private SignalBus _signalBus;
-        private EnemyRegistry _registry;
-        private Explosion.Factory _explosionFactory;
+        public Vector2 Position => transform.position;
+        public Quaternion Rotation => transform.rotation;
 
-        [Inject]
-        private void Construct(SignalBus signalBus, EnemyRegistry registry, Explosion.Factory explosionFactory)
-        {
-            _signalBus = signalBus;
-            _registry = registry;
-            _explosionFactory = explosionFactory;
-        }
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out Bullet bullet))
-            {
-                Kill();
-                bullet.Dispose();
-            }
-        }
-
-        public void Kill()
-        {
-            Explosion explosion = _explosionFactory.Create();
-            explosion.transform.position = transform.position;
-            _signalBus.Fire<EnemyDestroyedSignal>();
-            Dispose();
-        }
         public void Dispose()
         {
-            _pool.Despawn(this);
+            _pool?.Despawn(this);
         }
+        public void Rotate(Quaternion rotation) => transform.rotation = rotation;
+        public void Translate(Vector2 direction) => transform.Translate(direction, Space.World);
+        public void SetPosition(Vector2 position) => transform.position = position;
+
         void IPoolable<IMemoryPool>.OnDespawned()
         {
             _pool = null;
-            _registry.Unregister(this);
         }
         void IPoolable<IMemoryPool>.OnSpawned(IMemoryPool pool)
         {
             _pool = pool;
-            _registry.Register(this);
         }
 
-        public class Factory : PlaceholderFactory<EnemyView>, IEnemyFactory { }
+        public class Factory : PlaceholderFactory<EnemyView> { }
     }
 }

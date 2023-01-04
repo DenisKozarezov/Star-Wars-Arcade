@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13159383dc2caeb45a3f1ff194a2f6d2, type: 3}
+  m_Name: Game Settings
+  m_EditorClassIdentifier: 
+  _gameSettings:
+    GameTime: 300
+    EnemiesLimit: 10
+    EnemiesSpawnTime: 2
+  _playerSettings: {fileID: 11400000, guid: 50545ccdc3f2f9149be1b0e045f7ee94, type: 2}
+  _enemySettings: {fileID: 11400000, guid: 4cb86f4fc4658ef4a98c6228a61856d2, type: 2}
+  _weaponsSettings:
+    BulletGunConfig: {fileID: 11400000, guid: 0d1cc124ab6828743b6a865577ee7dc6, type: 2}

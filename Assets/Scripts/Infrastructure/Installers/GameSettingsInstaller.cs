@@ -1,34 +1,25 @@
 using System;
 using UnityEngine;
 using Zenject;
-using RotaryHeart.Lib.SerializableDictionary;
 using Core.Models;
 using Core.Models.Units;
 
 namespace Core.Models
 {
     [Serializable]
-    public class GameSettings
+    public sealed class GameSettings
     {
         [Min(0f)]
         public float GameTime;
-        public GameObject ExplosionPrefab;
-        public GameObject BulletPrefab;
-        public SerializableDictionaryBase<BulletType, Sprite> Bullets;
-    }
-    [Serializable]
-    public class PlayerSettings
-    {
-        public bool Immortality;
-        public UnitModel PlayerModel;
-    }
-    [Serializable]
-    public class EnemySettings
-    {
         public byte EnemiesLimit;
-        public EnemyModel EnemyModel;
-        [Range(0f, 3f)]
-        public float SpawnTime;
+        [Min(0f)]
+        public float EnemiesSpawnTime;
+    }
+
+    [Serializable]
+    public sealed class WeaponsSettings
+    {
+        public BulletGunConfig BulletGunConfig;
     }
 }
 
@@ -41,9 +32,11 @@ namespace Core.Infrastructure
         [SerializeField]
         private GameSettings _gameSettings;
         [SerializeField]
-        private PlayerSettings _playerSettings;
+        private PlayerConfig _playerSettings;
         [SerializeField]
-        private EnemySettings _enemySettings;
+        private EnemyConfig _enemySettings;
+        [SerializeField]
+        private WeaponsSettings _weaponsSettings;
 
         public override void InstallBindings()
         {
@@ -52,7 +45,10 @@ namespace Core.Infrastructure
 
         private void BindAllSettings()
         {
-            Container.BindInstances(_gameSettings, _playerSettings, _enemySettings);
+            Container.BindInstance(_gameSettings).AsSingle().IfNotBound();
+            Container.BindInstance(_playerSettings).AsSingle().IfNotBound();
+            Container.BindInstance(_enemySettings).AsSingle().IfNotBound();
+            Container.BindInstance(_weaponsSettings).AsSingle().IfNotBound();
         }     
     }
 }

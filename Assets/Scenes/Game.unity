@@ -1073,6 +1073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnPoint: {fileID: 1422686932}
   _scoreCounter: {fileID: 2085779607}
+  _explosionPrefab: {fileID: 100002, guid: 93a60ba8e409947b1a0334537c8b38c8, type: 3}
 --- !u!114 &1147910283
 MonoBehaviour:
   m_ObjectHideFlags: 0

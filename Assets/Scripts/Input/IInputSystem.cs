@@ -9,5 +9,7 @@ namespace Core.Input
         ref Vector2 MousePosition { get; }
         bool Enabled { get; }
         Action Fire { get; set; }
+        void Enable();
+        void Disable();
     }
 }

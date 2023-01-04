@@ -34,5 +34,7 @@ namespace Core.Input
             _mousePosition = _playerControls.Player.MousePosition.ReadValue<Vector2>();
             _direction = _playerControls.Player.Movement.ReadValue<Vector2>();
         }
+        public void Enable() => _playerControls.Enable();
+        public void Disable() => _playerControls.Disable();
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Core
@@ -26,15 +27,9 @@ namespace Core
 #endif
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out Bullet bullet))
+            if (collision.TryGetComponent(out IDisposable disposable))
             {
-                bullet.Dispose();
-            }
-
-            if (collision.TryGetComponent(typeof(IUnit), out Component unit))
-            {
-                Vector2 point = collision.ClosestPoint(unit.transform.position);
-                unit.transform.position = GetWrappedPosition(point);
+                disposable.Dispose();
             }
         }
 

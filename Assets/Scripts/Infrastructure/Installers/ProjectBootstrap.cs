@@ -8,8 +8,6 @@ namespace Core.Infrastructure
     {
         [SerializeField]
         private EventSystem _eventSystem;
-        [SerializeField]
-        private string _nextSceneName;
  
         private void Awake()
         {
@@ -17,7 +15,7 @@ namespace Core.Infrastructure
         }
         private void Start()
         {
-            SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(Constants.Scenes.GameScene, LoadSceneMode.Additive);
         }
     }
 }

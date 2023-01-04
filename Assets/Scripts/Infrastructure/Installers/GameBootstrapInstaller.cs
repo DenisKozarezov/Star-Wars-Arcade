@@ -4,6 +4,8 @@ using Core.Input;
 using Core.Models;
 using Core.Units;
 using Core.UI;
+using Core.Weapons;
+using Core.Models.Units;
 
 namespace Core.Infrastructure
 {
@@ -16,9 +18,11 @@ namespace Core.Infrastructure
         [Inject]
         private GameSettings _gameSettings;
         [Inject]
-        private EnemySettings _enemySettings;
+        private EnemyConfig _enemySettings;
         [Inject]
-        private PlayerSettings _playerSettings;
+        private WeaponsSettings _weaponsSettings;
+        [SerializeField]
+        private GameObject _explosionPrefab;
 
         public override void InstallBindings()
         {
@@ -36,12 +40,6 @@ namespace Core.Infrastructure
         private void BindPlayer()
         {
             Container.BindInterfacesAndSelfTo<GameState>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerBulletFactory>().AsSingle();
-            Container.Bind<PlayerView>()
-                .FromComponentInNewPrefabResource(_playerSettings.PlayerModel.PrefabPath)
-                .AsSingle()
-                .OnInstantiated<PlayerView>((ctx, obj) => obj.transform.position = _spawnPoint.position)
-                .NonLazy();
         }
         private void BindUI()
         {
@@ -49,26 +47,24 @@ namespace Core.Infrastructure
         }
         private void BindEnemy()
         {
-            Container.Bind<EnemyBulletFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EnemyRegistry>().AsSingle();       
+            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle();       
         }
         private void BindPools()
         {
-            Container.BindFactoryCustomInterface<EnemyView, EnemyView.Factory, IEnemyFactory>().FromMonoPoolableMemoryPool(x => x
-                .WithInitialSize(_enemySettings.EnemiesLimit)     
-                .FromSubContainerResolve()
-                .ByNewPrefabResourceInstaller<EnemyInstaller>(_enemySettings.EnemyModel.PrefabPath)
+            Container.BindFactory<EnemyView, EnemyView.Factory>().FromMonoPoolableMemoryPool(x => x
+                .WithInitialSize(_gameSettings.EnemiesLimit)
+                .FromComponentInNewPrefab(_enemySettings.Prefab)
                 .UnderTransformGroup("Enemies"));
 
-            Container.BindFactory<float, BulletType, Bullet, Bullet.Factory>().FromMonoPoolableMemoryPool(x => x
+            Container.BindFactory<Vector2, Quaternion, float, float, BulletType, Bullet, Bullet.Factory>().FromMonoPoolableMemoryPool(x => x
                 .WithInitialSize(20)
-                .FromComponentInNewPrefab(_gameSettings.BulletPrefab)
+                .FromComponentInNewPrefab(_weaponsSettings.BulletGunConfig.Prefab)
                 .UnderTransformGroup("Bullets"));
 
             Container.BindFactory<Explosion, Explosion.Factory>().FromMonoPoolableMemoryPool(x => x
                 .WithInitialSize(5)
-                .FromComponentInNewPrefab(_gameSettings.ExplosionPrefab)
+                .FromComponentInNewPrefab(_explosionPrefab)
                 .UnderTransformGroup("VFX"));
         }
     }

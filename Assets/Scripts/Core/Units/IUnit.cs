@@ -1,7 +1,12 @@
-namespace Core
+using Core.Weapons;
+using System;
+
+namespace Core.Units
 {
     public interface IUnit
     {
-        void Kill();
+        ITransformable Transformable { get; }
+        event Action<IUnit> WeaponHit;
+        void SetPrimaryWeapon(IWeapon weapon);        
     }
 }

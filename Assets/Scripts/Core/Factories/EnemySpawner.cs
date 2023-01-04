@@ -1,24 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using Core.Models;
 using Core.Units;
+using Core.Models;
 
 namespace Core
 {
     public class EnemySpawner : IInitializable, ITickable
     {
+        private LinkedList<EnemyController> _enemies = new();
+
         private readonly IEnemyFactory _factory;
-        private readonly EnemyRegistry _registry;
         private readonly byte _enemiesLimit;
         private readonly float _spawnTime;
         private float _timer;
 
-        public EnemySpawner(IEnemyFactory factory, EnemySettings settings, EnemyRegistry registry)
+        public EnemySpawner(IEnemyFactory factory, GameSettings settings)
         {
             _factory = factory;
-            _registry = registry;
             _enemiesLimit = settings.EnemiesLimit;
-            _spawnTime = settings.SpawnTime;
+            _spawnTime = settings.EnemiesSpawnTime;
         }
         void IInitializable.Initialize()
         {
@@ -26,14 +27,32 @@ namespace Core
         }
         void ITickable.Tick()
         {
-            if (_registry.Count > _enemiesLimit) return;
+            if (_enemies.Count > _enemiesLimit) return;
 
             if (Time.realtimeSinceStartup - _timer >= _spawnTime)
             {
-                EnemyView enemy = _factory.Create();
-                enemy.transform.position = Random.insideUnitCircle * 5f;
+                EnemyController enemy = _factory.Create(position : Random.insideUnitCircle * 5f);
+                enemy.WeaponHit += OnEnemyHit;
+                enemy.Disposed += OnEnemyDisposed;
+                _enemies.AddLast(enemy);
                 _timer = Time.realtimeSinceStartup;
             }
+
+            foreach (EnemyController enemy in _enemies)
+            {
+                enemy.Update();
+            }
+        }
+
+        private void OnEnemyHit(IUnit target)
+        {
+  
+        }
+        private void OnEnemyDisposed(EnemyController enemy)
+        {
+            _enemies.Remove(enemy);
+            enemy.WeaponHit -= OnEnemyHit;
+            enemy.Disposed -= OnEnemyDisposed;
         }
     }
 }

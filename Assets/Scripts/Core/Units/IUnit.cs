@@ -7,6 +7,7 @@ namespace Core.Units
     {
         ITransformable Transformable { get; }
         event Action<IUnit> WeaponHit;
-        void SetPrimaryWeapon(IWeapon weapon);        
+        void SetPrimaryWeapon(IWeapon weapon);
+        void Hit();
     }
 }

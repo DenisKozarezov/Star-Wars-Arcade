@@ -15,8 +15,8 @@ MonoBehaviour:
   <DisplayName>k__BackingField: X-wing
   <Description>k__BackingField: 
   <Health>k__BackingField: 5
-  <Velocity>k__BackingField: 2.9
+  <Velocity>k__BackingField: 5.53
   <RotationSpeed>k__BackingField: 1.9
   <Deacceleration>k__BackingField: 0.083
-  <ReloadTime>k__BackingField: 1.89
+  <ReloadTime>k__BackingField: 0.23
   <Prefab>k__BackingField: {fileID: 2446057664160766129, guid: 07c43f55ac497824a8776197fa83c333, type: 3}

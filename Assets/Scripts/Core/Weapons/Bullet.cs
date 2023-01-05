@@ -31,7 +31,7 @@ namespace Core.Weapons
         }
         private void Update()
         {
-            transform.position += transform.right * _bulletForce * Time.deltaTime;
+            transform.position += transform.forward * _bulletForce * Time.deltaTime;
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {

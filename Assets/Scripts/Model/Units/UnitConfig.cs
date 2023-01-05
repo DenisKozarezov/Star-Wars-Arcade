@@ -8,7 +8,7 @@ namespace Core.Models.Units
         [field: Header("Settings")]
         [field: SerializeField] public string DisplayName { get; private set; }
         [field: SerializeField, TextArea] public string Description { get; private set; }
-        [field: Space, SerializeField] public byte Health { get; private set; }
+        [field: Space, SerializeField, Min(0)] public int Health { get; private set; }
         [field: SerializeField, Range(0f, 10f)] public float Velocity { get; private set; }
         [field: SerializeField, Range(0f, 10f)] public float RotationSpeed { get; private set; }
         [field: SerializeField, Range(0f, 0.5f)] public float Deacceleration { get; private set; }

@@ -7,10 +7,10 @@ namespace Core.Input
     public class StandaloneInputController : IInitializable, ITickable, ILateDisposable, IInputSystem
     {
         private readonly PlayerControls _playerControls;
-        private Vector2 _mousePosition;
+        private Vector2 _mouseScreenPosition;
         private Vector2 _direction;
         public ref Vector2 Direction => ref _direction;
-        public ref Vector2 MousePosition => ref _mousePosition;
+        public ref Vector2 MouseScreenPosition => ref _mouseScreenPosition;
         public bool Enabled => _playerControls.Player.enabled;
         public Action Fire { get; set; }
         
@@ -31,7 +31,7 @@ namespace Core.Input
         {
             if (!Enabled) return;
 
-            _mousePosition = _playerControls.Player.MousePosition.ReadValue<Vector2>();
+            _mouseScreenPosition = _playerControls.Player.MousePosition.ReadValue<Vector2>();
             _direction = _playerControls.Player.Movement.ReadValue<Vector2>();
         }
         public void Enable() => _playerControls.Enable();

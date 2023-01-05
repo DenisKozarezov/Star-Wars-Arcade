@@ -43,7 +43,7 @@ namespace Core.Weapons
         {
             Explosion explosion = _explosionFactory.Create();
             explosion.transform.position = position;
-            GameObject.Destroy(explosion, 0.8f);
+            explosion.Invoke(nameof(explosion.Dispose), 1.5f);
         }
 
         private void OnDisposed(Bullet bullet)

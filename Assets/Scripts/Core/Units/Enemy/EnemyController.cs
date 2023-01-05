@@ -37,10 +37,16 @@ namespace Core.Units
         }
         public void Shoot() => _model.PrimaryWeapon.Shoot();
         public void Update() => _stateMachine.Update();
+        public void Hit()
+        {
+            _model.Hit();
+            Dispose();
+        }
         public void Dispose()
         {
             _view.Dispose();
             Disposed?.Invoke(this);
         }
+        public void Reset() => _model.Reset();
     }
 }

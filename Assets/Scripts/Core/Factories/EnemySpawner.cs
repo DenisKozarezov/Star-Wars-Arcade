@@ -14,7 +14,8 @@ namespace Core
         private readonly byte _enemiesLimit;
         private readonly float _spawnTime;
         private float _timer;
-
+        private bool _enabled;
+         
         public EnemySpawner(IEnemyFactory factory, GameSettings settings)
         {
             _factory = factory;
@@ -27,32 +28,42 @@ namespace Core
         }
         void ITickable.Tick()
         {
-            if (_enemies.Count > _enemiesLimit) return;
-
-            if (Time.realtimeSinceStartup - _timer >= _spawnTime)
-            {
-                EnemyController enemy = _factory.Create(position : Random.insideUnitCircle * 5f);
-                enemy.WeaponHit += OnEnemyHit;
-                enemy.Disposed += OnEnemyDisposed;
-                _enemies.AddLast(enemy);
-                _timer = Time.realtimeSinceStartup;
-            }
-
             foreach (EnemyController enemy in _enemies)
             {
                 enemy.Update();
             }
+
+            if (!_enabled || _enemies.Count > _enemiesLimit) return;
+
+            if (Time.realtimeSinceStartup - _timer >= _spawnTime)
+            {
+                EnemyController enemy = _factory.Create(position: Random.insideUnitCircle * 5f);
+                enemy.Disposed += OnEnemyDisposed;
+                _enemies.AddLast(enemy);
+                _timer = Time.realtimeSinceStartup;
+            }
         }
 
-        private void OnEnemyHit(IUnit target)
-        {
-  
-        }
         private void OnEnemyDisposed(EnemyController enemy)
         {
             _enemies.Remove(enemy);
-            enemy.WeaponHit -= OnEnemyHit;
             enemy.Disposed -= OnEnemyDisposed;
+        }
+
+        public void Enable()
+        {
+            _enabled = true;
+        }
+        public void Disable()
+        {
+            _enabled = false;
+        }
+        public void Dispose()
+        {
+            foreach (EnemyController enemy in _enemies)
+            {
+                enemy.Dispose();
+            }
         }
     }
 }

@@ -30,6 +30,8 @@ namespace Core
             EnemyView view = _enemyPool.Create();
             EnemyModel model = new EnemyModel(_enemyConfig.ReloadTime, _enemyConfig.Velocity, _enemyConfig.RotationSpeed, _enemyConfig.Deacceleration);
             EnemyController controller = new EnemyController(model, view);
+            controller.Reset();
+            controller.WeaponHit += OnWeaponHit;
 
             view.SetPosition(position);
 
@@ -38,6 +40,11 @@ namespace Core
 
             controller.SetPrimaryWeapon(bulletGun);
             return controller;
+        }
+
+        private void OnWeaponHit(IUnit target)
+        {
+            target.Hit();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Core.Units;
 
 namespace Core
 {
@@ -30,6 +31,11 @@ namespace Core
             if (collision.TryGetComponent(out IDisposable disposable))
             {
                 disposable.Dispose();
+            }
+
+            if (collision.TryGetComponent(out ITransformable transformable))
+            {
+                transformable.SetPosition(GetWrappedPosition(transformable.Position));
             }
         }
 

@@ -19,5 +19,11 @@ namespace Core.Units
             RotationSpeed = rotationSpeed;
             Deacceleration = deacceleration;
         }
+
+        public void Hit() => Health = 0;
+        public void Reset()
+        {
+            Health = 1;
+        }
     }
 }

@@ -22,6 +22,15 @@ namespace Core
             _enemiesLimit = settings.EnemiesLimit;
             _spawnTime = settings.EnemiesSpawnTime;
         }
+
+        private EnemyController SpawnEnemy()
+        {
+            EnemyController enemy = _factory.Create(position: Random.insideUnitCircle * 5f);
+            enemy.Disposed += OnEnemyDisposed;
+            _enemies.AddLast(enemy);
+            return enemy;
+        }
+
         void IInitializable.Initialize()
         {
             _timer = Time.realtimeSinceStartup;
@@ -37,9 +46,7 @@ namespace Core
 
             if (Time.realtimeSinceStartup - _timer >= _spawnTime)
             {
-                EnemyController enemy = _factory.Create(position: Random.insideUnitCircle * 5f);
-                enemy.Disposed += OnEnemyDisposed;
-                _enemies.AddLast(enemy);
+                SpawnEnemy();
                 _timer = Time.realtimeSinceStartup;
             }
         }

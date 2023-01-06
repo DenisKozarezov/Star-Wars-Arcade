@@ -39,8 +39,11 @@ namespace Core.Units
         public void Update() => _stateMachine.Update();
         public void Hit()
         {
-            _model.Hit();
-            Dispose();
+            if (!_model.IsDead)
+            {
+                _model.Hit();
+                Dispose();
+            }
         }
         public void Dispose()
         {

@@ -5,7 +5,8 @@ namespace Core.Units
     public abstract class EnemyBaseState : IState<EnemyController>
     {
         protected readonly IStateMachine<EnemyController> StateMachine;
-        protected ITransformable Transformable => StateMachine.Context.Transformable;
+        protected EnemyController Context => StateMachine.Context;
+        protected ITransformable Transformable => Context.Transformable;
 
         protected EnemyBaseState(IStateMachine<EnemyController> stateMachine)
         {
@@ -22,6 +23,7 @@ namespace Core.Units
         private readonly float _velocity;
         private readonly float _rotationSpeed;
         private readonly float _deacceleration;
+        private readonly float _patrolRadius;
         private Vector2 _initPosition;
         private Vector2 _destination;
         private Vector2 _currentPosition;
@@ -31,15 +33,16 @@ namespace Core.Units
             _velocity = model.Velocity;
             _rotationSpeed = model.RotationSpeed;
             _deacceleration = model.Deacceleration;
+            _patrolRadius = model.PatrolRadius;
         }
 
         private Vector2 GetRandomDestination()
         {
-            return _initPosition + Random.insideUnitCircle * 2f;
+            return _initPosition + Random.insideUnitCircle * _patrolRadius;
         }
         private bool HasReachedDestination()
         {
-            return (_destination - Transformable.Position).sqrMagnitude <= 1E-02;
+            return (_destination - Transformable.Position).sqrMagnitude <= 1f;
         }
 
         public override void Enter()
@@ -71,44 +74,18 @@ namespace Core.Units
             else _destination = GetRandomDestination();
         }
     }
-    //public class EnemySeekState : EnemyBaseState
-    //{
-    //    //private readonly PlayerView _player;
-
-    //    public EnemySeekState(IStateMachine<EnemyView> stateMachine) : base(stateMachine)
-    //    {
-    //        //_player = player;
-    //    }
-
-    //    private Vector3 GetDirection()
-    //    {
-    //        if (_player == null) return Vector3.zero;
-
-    //        return _player.transform.position - Context.transform.position;
-    //    }
-    //    public override void Enter()
-    //    {
-     
-    //    }
-    //    public override void Exit()
-    //    {
-           
-    //    }
-    //    public override void Update()
-    //    {
-    //        Vector3 direction = GetDirection();
-    //        Context.transform.position += direction * Time.deltaTime;
-    //    }
-    //}
     public class EnemyAttackState : EnemyBaseState
     {
-        public EnemyAttackState(IStateMachine<EnemyController> stateMachine) : base(stateMachine)
-        {
+        private readonly float _reloadTime;
+        private float _timer;
 
+        public EnemyAttackState(IStateMachine<EnemyController> stateMachine, EnemyModel model) : base(stateMachine)
+        {
+            _reloadTime = model.ReloadTime;
         }
         public override void Enter()
         {
-
+            _timer = 0f;
         }
         public override void Exit()
         {
@@ -116,7 +93,12 @@ namespace Core.Units
         }
         public override void Update()
         {
-
+            if (_timer <= _reloadTime) _timer += Time.deltaTime;
+            else
+            {
+                Context.Shoot();
+                _timer = 0f;
+            }
         }
     }
 }

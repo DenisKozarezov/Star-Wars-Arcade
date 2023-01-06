@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7245254591736369116}
   - component: {fileID: -4494598214395408374}
   - component: {fileID: 726036006850881377}
+  - component: {fileID: 473671081543129860}
   m_Layer: 6
   m_Name: X-wing
   m_TagString: Player
@@ -29,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 2446057664160766129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3892283329685625957}
   m_Father: {fileID: 0}
@@ -148,6 +149,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <FirePoint>k__BackingField: {fileID: 3892283329685625957}
+--- !u!114 &473671081543129860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2446057664160766129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 588e9528b0b4b024d8003ab871ccda56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7489520404492422359
 GameObject:
   m_ObjectHideFlags: 0

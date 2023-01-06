@@ -70,6 +70,17 @@ namespace Core.Input
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""111c933c-1e3f-41a0-ba61-2e1fc82c4af4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""2D Vector"",
                     ""id"": ""56a59dab-f5de-46e9-b103-3a764b5fda4b"",
                     ""path"": ""2DVector"",

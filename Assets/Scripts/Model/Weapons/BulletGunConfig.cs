@@ -7,6 +7,6 @@ namespace Core.Models
     {
         [field: SerializeField, Min(0f)] public float BulletForce { get; private set; }
         [field: SerializeField, Min(0f)] public float BulletLifetime { get; private set; }
-        [field: Space, SerializeField] public AudioClip[] ShootSounds { get; private set; }
+        [field: SerializeField] public AudioClip[] ShootSounds { get; private set; }
     }
 }

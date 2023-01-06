@@ -22,7 +22,7 @@ namespace Core.Weapons
         private Coroutine _lifetimeCoroutine;
 
         public event Action LifetimeElapsed;
-        public event Action<Bullet, ITransformable> Hit;
+        public event Action<Bullet, IUnit> Hit;
         public event Action<Bullet> Disposed;
 
         private void Awake()
@@ -35,9 +35,9 @@ namespace Core.Weapons
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out ITransformable target))
+            if (collision.TryGetComponent(out ContactCollider collider))
             {
-                Hit?.Invoke(this, target);
+                Hit?.Invoke(this, collider.Owner);
             }
         }
         private void Enable(bool isEnabled)

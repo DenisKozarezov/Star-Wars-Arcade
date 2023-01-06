@@ -16,5 +16,6 @@ MonoBehaviour:
   <Description>k__BackingField: 
   <Prefab>k__BackingField: {fileID: 8525988298315931805, guid: 290fa1a1e1bde5e4cb8162a2cb285281, type: 3}
   <BulletForce>k__BackingField: 30
-  <BulletLifetime>k__BackingField: 2
-  <ShootSounds>k__BackingField: []
+  <BulletLifetime>k__BackingField: 2.5
+  <ShootSounds>k__BackingField:
+  - {fileID: 8300000, guid: f9517356afb533a41b9e7cb6f155031e, type: 3}

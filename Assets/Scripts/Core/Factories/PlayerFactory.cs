@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using UnityEngine;
+using Zenject;
 using Core.Models;
 using Core.Weapons;
 using Core.Models.Units;
@@ -23,15 +24,18 @@ namespace Core.Player
         {
             PlayerView view = _container.InstantiatePrefabForComponent<PlayerView>(_playerSettings.Prefab);
             PlayerModel model = _container.Instantiate<PlayerModel>(new object[] { _playerSettings.ReloadTime, _playerSettings.Velocity, _playerSettings.RotationSpeed, _playerSettings.Deacceleration, _playerSettings.Health });
-            PlayerController playerController = _container.Instantiate<PlayerController>(new object[] { model, view });
-            playerController.WeaponHit += OnWeaponHit;
+            PlayerController controller = _container.Instantiate<PlayerController>(new object[] { model, view });
+            
+            controller.WeaponHit += OnWeaponHit;
+
+            view.GetComponent<ContactCollider>().Owner = controller;
 
             BulletGunModel bulletGunModel = new BulletGunModel(model.ReloadTime, _weaponSettings.BulletGunConfig, view.FirePoint, BulletType.Player);
             BulletGun bulletGun = _container.Instantiate<BulletGun>(new object[] { bulletGunModel });
 
-            playerController.SetPrimaryWeapon(bulletGun);
-            _playerController = playerController;
-            return playerController;
+            controller.SetPrimaryWeapon(bulletGun);
+            _playerController = controller;
+            return controller;
         }
 
         private void OnWeaponHit(IUnit target)
@@ -41,7 +45,7 @@ namespace Core.Player
 
         void ITickable.Tick()
         {
-            _playerController?.Update();
+            _playerController?.Update(Time.deltaTime);
         }
     }
 }

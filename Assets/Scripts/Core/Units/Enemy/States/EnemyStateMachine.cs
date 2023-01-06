@@ -16,7 +16,7 @@ namespace Core.Units
             _states = new List<IState<EnemyController>>()
             {
                 new EnemyPatrolState(this, model),
-                new EnemyAttackState(this)
+                new EnemyAttackState(this, model)
             };
             SwitchState<EnemyPatrolState>();
         }

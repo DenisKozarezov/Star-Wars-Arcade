@@ -28,12 +28,21 @@ namespace Core
         public EnemyController Create(Vector2 position)
         {
             EnemyView view = _enemyPool.Create();
-            EnemyModel model = new EnemyModel(_enemyConfig.ReloadTime, _enemyConfig.Velocity, _enemyConfig.RotationSpeed, _enemyConfig.Deacceleration);
+            EnemyModel model = new EnemyModel(
+                _enemyConfig.ReloadTime, 
+                _enemyConfig.Velocity, 
+                _enemyConfig.RotationSpeed, 
+                _enemyConfig.Deacceleration, 
+                _enemyConfig.AggressionRadius, 
+                _enemyConfig.PatrolRadius);
             EnemyController controller = new EnemyController(model, view);
             controller.Reset();
+
             controller.WeaponHit += OnWeaponHit;
+            controller.Disposed += OnEnemyDisposed;
 
             view.SetPosition(position);
+            view.GetComponent<ContactCollider>().Owner = controller;
 
             BulletGunModel bulletGunModel = new BulletGunModel(model.ReloadTime, _weaponSettings.BulletGunConfig, view.FirePoint, BulletType.Player);
             BulletGun bulletGun = _container.Instantiate<BulletGun>(new object[] { bulletGunModel });
@@ -45,6 +54,11 @@ namespace Core
         private void OnWeaponHit(IUnit target)
         {
             target.Hit();
+        }
+        private void OnEnemyDisposed(EnemyController enemy)
+        {
+            enemy.WeaponHit -= OnWeaponHit;
+            enemy.Disposed -= OnEnemyDisposed;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Player;
+using Core.Units;
 using UnityEngine;
 using Zenject;
 
@@ -19,7 +20,6 @@ namespace Core
         private void StartGame()
         {
             _player = _playerFactory.Create();
-            _player.Enable();
             _player.Died += OnPlayerDead;
 
             _enemySpawner.Enable();
@@ -29,6 +29,8 @@ namespace Core
             _player.Disable();
             _enemySpawner.Disable();
             _enemySpawner.Dispose();
+
+            _player.Died -= OnPlayerDead;
 
 #if UNITY_EDITOR
             Debug.Log("Player died!");

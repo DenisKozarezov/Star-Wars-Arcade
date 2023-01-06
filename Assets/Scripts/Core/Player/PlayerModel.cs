@@ -1,7 +1,6 @@
-﻿using Core.Input;
-using Core.Units;
+﻿using System;
+using Core.Input;
 using Core.Weapons;
-using System;
 
 namespace Core.Player
 {
@@ -15,6 +14,7 @@ namespace Core.Player
         public readonly IInputSystem InputSystem;
         public IWeapon PrimaryWeapon { get; set; }
         public IWeapon SecondaryWeapon { get; set; }
+        public bool IsDead => Health == 0;
 
         public event Action Died;
 

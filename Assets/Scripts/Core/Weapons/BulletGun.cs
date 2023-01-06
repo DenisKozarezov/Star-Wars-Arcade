@@ -52,11 +52,11 @@ namespace Core.Weapons
             bullet.Hit -= OnBulletHit;
             bullet.Disposed -= OnDisposed;
         }
-        private void OnBulletHit(Bullet bullet, ITransformable unit)
+        private void OnBulletHit(Bullet bullet, IUnit unit)
         {
             CreateExplosion(bullet.transform.position);
             bullet.Dispose();
-            //Hit?.Invoke(unit);
+            Hit?.Invoke(unit);
         }
     }
 }

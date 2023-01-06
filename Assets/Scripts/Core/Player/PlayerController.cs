@@ -10,7 +10,7 @@ namespace Core.Player
         private readonly PlayerModel _model;
         private readonly PlayerView _view;
         private Camera _camera;
-        public ITransformable Transformable => _view;
+
         public event Action<IUnit> WeaponHit;
         public event Action Died;
 
@@ -23,32 +23,30 @@ namespace Core.Player
             _model.Died += Died;
         }
 
-        private void OnFire() => _model.PrimaryWeapon.Shoot();
-
-        private void ProcessMovementInput()
+        private void ProcessMovementInput(float deltaTime)
         {
-            Vector2 direction = _model.InputSystem.Direction * _model.Velocity * Time.deltaTime;
-            Transformable.Translate(direction);
+            Vector2 direction = _model.InputSystem.Direction * _model.Velocity * deltaTime;
+            _view.Translate(direction);
         }
         private void TrackCursor()
         {
             Vector3 mouseWorldPosition = _camera.ScreenToWorldPoint(_model.InputSystem.MouseScreenPosition);
-            Vector3 lookDirection = mouseWorldPosition - (Vector3)Transformable.Position;
+            Vector3 lookDirection = mouseWorldPosition - (Vector3)_view.Position;
             Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.forward);
-            Transformable.Rotate(rotation);
+            _view.Rotate(rotation);
         }
         private void BindWeapon()
         {
             if (_model.PrimaryWeapon == null) return;
 
-            _model.InputSystem.Fire += OnFire;
+            _model.InputSystem.Fire += _model.PrimaryWeapon.Shoot;
             _model.PrimaryWeapon.Hit += WeaponHit.Invoke;
         }
         private void UnbindWeapon()
         {
             if (_model.PrimaryWeapon == null) return;
 
-            _model.InputSystem.Fire -= OnFire;
+            _model.InputSystem.Fire -= _model.PrimaryWeapon.Shoot;
             _model.PrimaryWeapon.Hit -= WeaponHit.Invoke;
         }
 
@@ -56,11 +54,15 @@ namespace Core.Player
         {
             _model.InputSystem.Enable();
             BindWeapon();
+
+            _model.Died += Died;
         }
         public void Disable()
         {
             _model.InputSystem.Disable();
             UnbindWeapon();
+
+            _model.Died -= Died;
         }
         public void SetPrimaryWeapon(IWeapon weapon)
         {
@@ -72,10 +74,13 @@ namespace Core.Player
 
             BindWeapon();
         }
-        public void Hit() => _model.Hit();
-        public void Update()
+        public void Hit()
         {
-            ProcessMovementInput();
+            if (!_model.IsDead) _model.Hit();
+        }
+        public void Update(float deltaTime)
+        {
+            ProcessMovementInput(deltaTime);
 
             TrackCursor();
         }

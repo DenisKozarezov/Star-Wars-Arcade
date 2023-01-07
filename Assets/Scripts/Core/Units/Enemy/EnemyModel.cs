@@ -10,7 +10,7 @@ namespace Core.Units
         public readonly float Deacceleration;
         public readonly float AggressionRadius;
         public readonly float PatrolRadius;
-        public byte Health;
+        public int Health;
         public IWeapon PrimaryWeapon { get; set; }
         public IWeapon SecondaryWeapon { get; set; }
         public bool IsDead => Health == 0;
@@ -21,7 +21,8 @@ namespace Core.Units
             float rotationSpeed, 
             float deacceleration, 
             float aggressionRadius, 
-            float patrolRadius)
+            float patrolRadius,
+            int maxHealth)
         {
             ReloadTime = reloadTime;
             Velocity = velocity;
@@ -29,6 +30,7 @@ namespace Core.Units
             Deacceleration = deacceleration;
             AggressionRadius = aggressionRadius;
             PatrolRadius = patrolRadius;
+            Health = maxHealth;
         }
 
         public void Hit() => Health = 0;

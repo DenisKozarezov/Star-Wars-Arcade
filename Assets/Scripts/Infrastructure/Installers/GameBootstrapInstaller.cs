@@ -44,7 +44,7 @@ namespace Core.Infrastructure
         private void BindEnemy()
         {
             Container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle();
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle();       
+            Container.BindFactoryCustomInterface<Vector2, EnemyController, EnemyFactory, IEnemyFactory>();
         }
         private void BindGame()
         {
@@ -52,10 +52,7 @@ namespace Core.Infrastructure
         }
         private void BindPools()
         {
-            Container.BindFactory<EnemyView, EnemyView.Factory>().FromMonoPoolableMemoryPool(x => x
-                .WithInitialSize(_gameSettings.EnemiesLimit)
-                .FromComponentInNewPrefab(_enemySettings.Prefab)
-                .UnderTransformGroup("Enemies"));
+            Container.BindFactory<Vector2, EnemyController, EnemyFactory>().AsCached();
 
             Container.BindFactory<Vector2, Quaternion, float, float, BulletType, Bullet, Bullet.Factory>().FromMonoPoolableMemoryPool(x => x
                 .WithInitialSize(20)

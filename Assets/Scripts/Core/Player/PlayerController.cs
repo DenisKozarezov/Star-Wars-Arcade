@@ -30,10 +30,10 @@ namespace Core.Player
         }
         private void TrackCursor()
         {
-            Vector3 mouseWorldPosition = _camera.ScreenToWorldPoint(_model.InputSystem.MouseScreenPosition);
-            Vector3 lookDirection = mouseWorldPosition - (Vector3)_view.Position;
-            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.forward);
-            _view.Rotate(rotation);
+            Vector3 position = _camera.WorldToScreenPoint(_view.Position);
+            Vector3 direction = (Vector3)_model.InputSystem.MouseScreenPosition - position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+            _view.Rotate(Quaternion.AngleAxis(angle, Vector3.forward));
         }
         private void BindWeapon()
         {

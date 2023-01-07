@@ -3,40 +3,38 @@ using Zenject;
 using Core.Models;
 using Core.Weapons;
 using Core.Models.Units;
-using Core.Units;
 
-namespace Core
+namespace Core.Units
 {
-    public interface IEnemyFactory
+    public interface IEnemyFactory : IFactory<Vector2, EnemyController>
     {
-        public EnemyController Create(Vector2 position);
+        
     }
-    public class EnemyFactory : IEnemyFactory
+    public class EnemyFactory : PlaceholderFactory<Vector2, EnemyController>, IEnemyFactory
     {
         private readonly DiContainer _container;
-        private readonly EnemyView.Factory _enemyPool;
         private readonly EnemyConfig _enemyConfig;
         private readonly WeaponsSettings _weaponSettings;
 
-        public EnemyFactory(DiContainer container, EnemyView.Factory enemyPool, EnemyConfig enemySettings, WeaponsSettings weaponSettings)
+        public EnemyFactory(DiContainer container, EnemyConfig enemySettings, WeaponsSettings weaponSettings)
         {
             _container = container;
-            _enemyPool = enemyPool;
             _enemyConfig = enemySettings;
             _weaponSettings = weaponSettings;
         }
-        public EnemyController Create(Vector2 position)
+
+        public override EnemyController Create(Vector2 position)
         {
-            EnemyView view = _enemyPool.Create();
+            EnemyView view = _container.InstantiatePrefabForComponent<EnemyView>(_enemyConfig.Prefab);
             EnemyModel model = new EnemyModel(
-                _enemyConfig.ReloadTime, 
-                _enemyConfig.Velocity, 
-                _enemyConfig.RotationSpeed, 
-                _enemyConfig.Deacceleration, 
-                _enemyConfig.AggressionRadius, 
-                _enemyConfig.PatrolRadius);
+                _enemyConfig.ReloadTime,
+                _enemyConfig.Velocity,
+                _enemyConfig.RotationSpeed,
+                _enemyConfig.Deacceleration,
+                _enemyConfig.AggressionRadius,
+                _enemyConfig.PatrolRadius,
+                _enemyConfig.Health);
             EnemyController controller = new EnemyController(model, view);
-            controller.Reset();
 
             controller.WeaponHit += OnWeaponHit;
             controller.Disposed += OnEnemyDisposed;
@@ -50,7 +48,6 @@ namespace Core
             controller.SetPrimaryWeapon(bulletGun);
             return controller;
         }
-
         private void OnWeaponHit(IUnit target)
         {
             target.Hit();

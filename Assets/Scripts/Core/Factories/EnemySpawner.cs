@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using Core.Units;
 using Core.Models;
 
-namespace Core
+namespace Core.Units
 {
     public class EnemySpawner : IInitializable, ITickable
     {
@@ -23,10 +22,9 @@ namespace Core
             _spawnTime = settings.EnemiesSpawnTime;
         }
 
-        private EnemyController SpawnEnemy()
+        private EnemyController CreateEnemy()
         {
-            EnemyController enemy = _factory.Create(position: Random.insideUnitCircle * 5f);
-            enemy.Disposed += OnEnemyDisposed;
+            EnemyController enemy = _factory.Create(Random.insideUnitCircle * 5f);
             _enemies.AddLast(enemy);
             return enemy;
         }
@@ -34,27 +32,25 @@ namespace Core
         void IInitializable.Initialize()
         {
             _timer = Time.realtimeSinceStartup;
+
+            for (int i = 0; i < _enemiesLimit; i++) CreateEnemy();
         }
         void ITickable.Tick()
         {
+            if (!_enabled) return;
+
             foreach (EnemyController enemy in _enemies)
             {
                 enemy.Update();
             }
 
-            if (!_enabled || _enemies.Count > _enemiesLimit) return;
+            if (_enemies.Count > _enemiesLimit) return;
 
-            if (Time.realtimeSinceStartup - _timer >= _spawnTime)
-            {
-                SpawnEnemy();
-                _timer = Time.realtimeSinceStartup;
-            }
-        }
-
-        private void OnEnemyDisposed(EnemyController enemy)
-        {
-            _enemies.Remove(enemy);
-            enemy.Disposed -= OnEnemyDisposed;
+            //if (Time.realtimeSinceStartup - _timer >= _spawnTime)
+            //{
+            //    SpawnEnemy();
+            //    _timer = Time.realtimeSinceStartup;
+            //}
         }
 
         public void Enable()
@@ -69,6 +65,7 @@ namespace Core
         {
             foreach (EnemyController enemy in _enemies)
             {
+                _enemies.Remove(enemy);
                 enemy.Dispose();
             }
         }

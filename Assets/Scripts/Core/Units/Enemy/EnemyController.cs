@@ -1,10 +1,11 @@
 ﻿using System;
+using UnityEngine;
 using Zenject;
 using Core.Weapons;
 
 namespace Core.Units
 {
-    public class EnemyController : IUnit, IPoolable, IDisposable
+    public class EnemyController : IUnit, IPoolable<Vector2>, IDisposable
     {
         private readonly EnemyModel _model;
         private readonly EnemyView _view;
@@ -53,17 +54,14 @@ namespace Core.Units
         }
         public void Dispose()
         {
-            _view.SetActive(false);
             Disposed?.Invoke(this);
         }
 
-        void IPoolable.OnDespawned()
-        {
-            _view.SetActive(false);
-        }
-        void IPoolable.OnSpawned()
+        void IPoolable<Vector2>.OnDespawned() => _view.SetActive(false);
+        void IPoolable<Vector2>.OnSpawned(Vector2 position)
         {
             _model.Reset();
+            _view.SetPosition(position);
             _view.SetActive(true);
         }
     }

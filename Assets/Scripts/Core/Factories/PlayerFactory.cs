@@ -24,7 +24,7 @@ namespace Core.Player
         {
             PlayerView view = _container.InstantiatePrefabForComponent<PlayerView>(_playerSettings.Prefab);
             PlayerModel model = _container.Instantiate<PlayerModel>(new object[] { _playerSettings.ReloadTime, _playerSettings.Velocity, _playerSettings.RotationSpeed, _playerSettings.Deacceleration, _playerSettings.Health });
-            PlayerController controller = _container.Instantiate<PlayerController>(new object[] { model, view });
+            PlayerController controller = new PlayerController(model, view);
             
             controller.WeaponHit += OnWeaponHit;
 

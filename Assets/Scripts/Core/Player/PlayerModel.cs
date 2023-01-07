@@ -31,7 +31,7 @@ namespace Core.Player
         public void Hit()
         {
             Health = Math.Max(Health - 1, 0);
-            if (Health == 0) Died?.Invoke();
+            if (IsDead) Died?.Invoke();
         }
     }
 }

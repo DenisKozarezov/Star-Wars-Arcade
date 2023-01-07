@@ -11,6 +11,6 @@ namespace Core.Units
         public void Rotate(Quaternion rotation) => transform.rotation = rotation;
         public void Translate(Vector2 direction) => transform.Translate(direction, Space.World);
         public void SetPosition(Vector2 position) => transform.position = position;
-        public void SetActive(bool isActive) => gameObject.SetActive(isActive);   
+        public void SetActive(bool isActive) => gameObject.SetActive(isActive);
     }
 }

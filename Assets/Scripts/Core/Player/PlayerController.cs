@@ -17,10 +17,15 @@ namespace Core.Player
         public PlayerController(PlayerModel playerModel, PlayerView playerView)
         {
             _model = playerModel;
+            _model.Died += Died;
+
             _view = playerView;
             _camera = Camera.main;
+        }
 
-            _model.Died += Died;
+        private void OnWeaponHit(IUnit target)
+        {
+            WeaponHit?.Invoke(target);
         }
 
         private void ProcessMovementInput(float deltaTime)
@@ -40,28 +45,26 @@ namespace Core.Player
             if (_model.PrimaryWeapon == null) return;
 
             _model.InputSystem.Fire += _model.PrimaryWeapon.Shoot;
-            _model.PrimaryWeapon.Hit += WeaponHit.Invoke;
+            _model.PrimaryWeapon.Hit += OnWeaponHit;
         }
         private void UnbindWeapon()
         {
             if (_model.PrimaryWeapon == null) return;
 
             _model.InputSystem.Fire -= _model.PrimaryWeapon.Shoot;
-            _model.PrimaryWeapon.Hit -= WeaponHit.Invoke;
+            _model.PrimaryWeapon.Hit -= OnWeaponHit;
         }
 
         public void Enable()
         {
             _model.InputSystem.Enable();
             BindWeapon();
-
             _model.Died += Died;
         }
         public void Disable()
         {
             _model.InputSystem.Disable();
             UnbindWeapon();
-
             _model.Died -= Died;
         }
         public void SetPrimaryWeapon(IWeapon weapon)

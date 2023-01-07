@@ -4,6 +4,7 @@ namespace Core
     {
         public const int PlayerLayer = 6;
         public const int EnemyLayer = 7;
+        public const int IgnoreRaycastLayer = 4;
 
         public struct Scenes
         {

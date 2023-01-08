@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Zenject;
+using DG.Tweening;
 
 namespace Core.Audio
 {
@@ -47,6 +48,7 @@ namespace Core.Audio
             _audioSource.volume = volume;
             _audioSource.ignoreListenerPause = true;
             _audioSource.Play();
+            _audioSource.DOFade(volume, duration: 1f);
         }
         private void StopMusicInternal()
         {

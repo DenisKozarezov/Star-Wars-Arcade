@@ -12,7 +12,6 @@ namespace Core.Units
         public readonly float PatrolRadius;
         public int Health;
         public IWeapon PrimaryWeapon { get; set; }
-        public IWeapon SecondaryWeapon { get; set; }
         public bool IsDead => Health == 0;
 
         public EnemyModel(

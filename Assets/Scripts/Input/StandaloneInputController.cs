@@ -19,14 +19,8 @@ namespace Core.Input
             _playerControls = new PlayerControls();
             _playerControls.Player.Fire.started += _ => Fire?.Invoke();
         }
-        void IInitializable.Initialize()
-        {
-            _playerControls.Enable();
-        }
-        void ILateDisposable.LateDispose()
-        {
-            _playerControls.Disable();
-        }
+        void IInitializable.Initialize() => _playerControls.Enable();
+        void ILateDisposable.LateDispose() => _playerControls.Disable();
         void ITickable.Tick()
         {
             if (!Enabled) return;
@@ -35,6 +29,10 @@ namespace Core.Input
             _direction = _playerControls.Player.Movement.ReadValue<Vector2>();
         }
         public void Enable() => _playerControls.Enable();
-        public void Disable() => _playerControls.Disable();
+        public void Disable()
+        {
+            _direction = Vector2.zero;
+            _playerControls.Disable();
+        }
     }
 }

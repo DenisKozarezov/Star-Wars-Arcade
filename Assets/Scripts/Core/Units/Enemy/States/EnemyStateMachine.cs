@@ -18,7 +18,7 @@ namespace Core.Units
                 new EnemyPatrolState(this, model),
                 new EnemyAttackState(this, model)
             };
-            SwitchState<EnemyAttackState>();
+            SwitchState<EnemyPatrolState>();
         }
         public void Update() => _currentState?.Update();
         public void SwitchState<State>() where State : IState<EnemyController>

@@ -12,7 +12,7 @@ namespace Core
         private readonly PlayerController _player;
         private readonly AudioSound _music;
 
-        public Level(PlayerFactory playerFactory, EnemySpawner enemySpawner, Audio.AudioSettings audio)
+        public Level(PlayerFactory playerFactory, EnemySpawner enemySpawner, AudioSettings audio)
         {
             _playerFactory = playerFactory;
             _enemySpawner = enemySpawner;

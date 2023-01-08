@@ -11,11 +11,13 @@ namespace Core.Audio
         private static SoundManager _instance;
         private DisposableAudioClip.Factory _factory;
         private AudioSource _audioSource;
+        private AudioSound _music;
 
         [Inject]
-        private void Construct(DisposableAudioClip.Factory audioFactory)
+        private void Construct(DisposableAudioClip.Factory audioFactory, AudioSettings settings)
         {
             _factory = audioFactory;
+            _music = settings.GameSounds.GameBackground;
         }
 
         private void Awake()
@@ -52,16 +54,21 @@ namespace Core.Audio
         }
         private void StopMusicInternal()
         {
-            _audioSource.Stop();
-            _audioSource.clip = null;
+            _audioSource.DOFade(0, duration: 1f)
+                .SetEase(Ease.Linear)
+                .OnComplete(() =>
+                {
+                    _audioSource.Stop();
+                    _audioSource.clip = null;
+                });
         }
         public static void PlayOneShot(AudioClip clip, float volume = 1f, bool pausable = true)
         {
             _instance.PlayOneShotInternal(clip, volume, pausable);
         }
-        public static void PlayMusic(AudioClip clip, float volume = 1f)
+        public static void PlayMusic()
         {
-            _instance.PlayMusicInternal(clip, volume);
+            _instance.PlayMusicInternal(_instance._music.Clip, _instance._music.Volume);
         }
         public static void StopMusic()
         {

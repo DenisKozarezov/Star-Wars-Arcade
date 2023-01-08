@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System;
 using Zenject;
 using Core.Models;
 using Core.Weapons;
@@ -13,6 +13,8 @@ namespace Core.Player
         private readonly PlayerConfig _playerSettings;
         private readonly WeaponsSettings _weaponSettings;
         private PlayerController _playerController;
+
+        public event Action EnemyKilled;
 
         public PlayerFactory(DiContainer container, PlayerConfig playerSettings, WeaponsSettings weaponSettings)
         {
@@ -35,17 +37,20 @@ namespace Core.Player
 
             controller.SetPrimaryWeapon(bulletGun);
             _playerController = controller;
+            _container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
             return controller;
         }
 
         private void OnWeaponHit(IUnit target)
         {
             target.Hit();
+
+            if (target.IsDead) EnemyKilled?.Invoke();
         }
 
         void ITickable.Tick()
         {
-            _playerController?.Update(Time.deltaTime);
+            _playerController?.Update();
         }
     }
 }

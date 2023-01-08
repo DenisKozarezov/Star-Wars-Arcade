@@ -10,7 +10,6 @@ namespace Core
         {
             public const int MainMenu = 1;
             public const int GameScene = 2;
-            public const int UI = 3;
         }
     }
 }

@@ -19,7 +19,6 @@ namespace Core.Units
         private readonly EnemyConfig _enemyConfig;
         private readonly WeaponsSettings _weaponSettings;
         private readonly Queue<EnemyController> _pool;
-
         public bool Empty => _pool.Count == 0;
 
         public EnemyFactory(DiContainer container, EnemyConfig enemySettings, WeaponsSettings weaponSettings, GameSettings gameSettings)
@@ -28,11 +27,8 @@ namespace Core.Units
             _enemyConfig = enemySettings;
             _weaponSettings = weaponSettings;
             _pool = new Queue<EnemyController>(gameSettings.EnemiesLimit);
-            Init(gameSettings.EnemiesLimit);
-        }
-        private void Init(int capacity)
-        {
-            for (int i = 0; i < capacity; i++) Create();
+
+            for (int i = 0; i < gameSettings.EnemiesLimit; i++) Create();
         }
         private EnemyController Create()
         {
@@ -57,6 +53,7 @@ namespace Core.Units
             _pool.Enqueue(controller);
             return controller;
         }
+
         public EnemyController Spawn(Vector2 position)
         {
             if (_pool.TryDequeue(out EnemyController enemy))

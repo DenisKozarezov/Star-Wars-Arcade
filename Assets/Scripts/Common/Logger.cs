@@ -12,6 +12,7 @@ namespace Core
             Critical = 3,
         }
 
+
         [Conditional("ENABLE_LOGS")]
         public static void Debug(string logMsg, LogType type = LogType.Default)
         {
@@ -31,5 +32,8 @@ namespace Core
                     break;
             }
         }
+
+        [Conditional("ENABLE_LOGS")]
+        public static void Debug(object logMsg, LogType type = LogType.Default) => Debug(logMsg.ToString(), type);
     }
 }

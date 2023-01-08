@@ -1,6 +1,8 @@
-using TMPro;
 using UnityEngine;
 using Zenject;
+using Core.Player;
+using Core.Units;
+using TMPro;
 
 namespace Core.UI
 {
@@ -12,24 +14,27 @@ namespace Core.UI
         [SerializeField]
         private TextMeshProUGUI _velocity;
 
-        private void Construct()
-        {
+        private ITransformable _player;
 
+        [Inject]
+        private void Construct(LazyInject<PlayerController> player)
+        {
+            _player = player.Value.Transformable;
         }
 
-        private void Awake()
+        private void Update()
         {
-            SetCoordinates(Vector2.zero);
-            SetVelocity(0f);
+            SetCoordinates(_player.Position);
+            SetVelocity(_player.Velocity);
         }
 
         private void SetCoordinates(Vector2 coordinates)
         {
-            _coordinates.text = $"X: {coordinates.x} Y: {coordinates.y}";
+            _coordinates.text = $"X: {coordinates.x.ToString("F")} Y: {coordinates.y.ToString("F")}";
         }
         private void SetVelocity(float velocity)
         {
-            _velocity.text = velocity.ToString();
+            _velocity.text = $"Velocity: {velocity.ToString("F3")}";
         }
     }
 }

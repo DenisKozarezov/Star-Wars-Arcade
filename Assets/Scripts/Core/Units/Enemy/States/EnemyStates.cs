@@ -26,7 +26,6 @@ namespace Core.Units
         private readonly float _patrolRadius;
         private Vector2 _initPosition;
         private Vector2 _destination;
-        private Vector2 _currentPosition;
 
         public EnemyPatrolState(IStateMachine<EnemyController> stateMachine, EnemyModel model) : base(stateMachine) 
         {
@@ -62,10 +61,9 @@ namespace Core.Units
                 float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 90f;
                 Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 Quaternion lerpRotation = Quaternion.Slerp(Transformable.Rotation, targetRotation, Time.deltaTime * _rotationSpeed);
-                Vector2 smoothPosition = Vector2.SmoothDamp(Transformable.Position, Transformable.Position + direction * _velocity, ref _currentPosition, _deacceleration, _velocity);
 
                 Transformable.Rotate(lerpRotation);
-                Transformable.SetPosition(smoothPosition);
+                Transformable.Translate(direction.normalized, _velocity, _deacceleration);
 
 #if UNITY_EDITOR
                 Debug.DrawLine(Transformable.Position, _destination, Color.yellow);

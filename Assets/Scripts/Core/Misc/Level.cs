@@ -5,48 +5,49 @@ using Zenject;
 
 namespace Core
 {
-    public class Level : IInitializable
+    public class Level : IInitializable, ILateDisposable
     {
         private readonly PlayerFactory _playerFactory;
         private readonly EnemySpawner _enemySpawner;
+        private readonly GameState _gameState;
         private readonly PlayerController _player;
-        private readonly AudioSound _music;
 
-        public Level(PlayerFactory playerFactory, EnemySpawner enemySpawner, AudioSettings audio)
+        public Level(PlayerFactory playerFactory, EnemySpawner enemySpawner, GameState gameState)
         {
             _playerFactory = playerFactory;
             _enemySpawner = enemySpawner;
-            _music = audio.GameSounds.GameBackground;
-
+            _gameState = gameState;
             _player = _playerFactory.Create();
-            _player.Died += OnPlayerDead;
-            _player.WeaponHit += OnPlayerKilledEnemy;
         }
 
         private void StartGame()
         {
             _enemySpawner.Enable();
-            _player.Enable();
-            SoundManager.PlayMusic(_music.Clip, _music.Volume);
+
+            _playerFactory.EnemyKilled += _gameState.AddScore;
+            _player.Died += OnPlayerDead;
+
+            SoundManager.PlayMusic();
         }
         private void OnPlayerDead()
         {
             _player.Disable();
-            _player.Died -= OnPlayerDead;
-
             _enemySpawner.Disable();
             _enemySpawner.Dispose();
 
-            Logger.Debug("Player died!");
-        }
-        private void OnPlayerKilledEnemy(IUnit unit)
-        {
-            Logger.Debug("Enemy killed!");
+            SoundManager.StopMusic();
+
+            Logger.Debug("Player <b><color=yellow>died</color></b>!");
         }
 
         void IInitializable.Initialize()
         {
             StartGame();
+        }
+        void ILateDisposable.LateDispose()
+        {
+            _playerFactory.EnemyKilled -= _gameState.AddScore;
+            _player.Died -= OnPlayerDead;
         }
     }
 }

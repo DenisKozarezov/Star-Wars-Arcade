@@ -6,7 +6,8 @@ namespace Core.Units
     {
         Vector2 Position { get; }
         Quaternion Rotation { get; }
-        void Translate(Vector2 direction);
+        float Velocity { get; }
+        void Translate(Vector2 direction, float maxVelocity, float deacceleration);
         void SetPosition(Vector2 position);
         void Rotate(Quaternion rotation);
     }

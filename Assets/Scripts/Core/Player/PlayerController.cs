@@ -11,6 +11,8 @@ namespace Core.Player
         private readonly PlayerView _view;
         private Camera _camera;
 
+        public bool IsDead => _model.IsDead;
+        public ITransformable Transformable => _view;
         public event Action<IUnit> WeaponHit;
         public event Action Died;
 
@@ -30,10 +32,9 @@ namespace Core.Player
             Died?.Invoke();
         }
 
-        private void ProcessMovementInput(float deltaTime)
+        private void ProcessMovementInput()
         {
-            Vector2 direction = _model.InputSystem.Direction * _model.Velocity * deltaTime;
-            _view.Translate(direction);
+            _view.Translate(_model.InputSystem.Direction, _model.Velocity, _model.Deacceleration);
         }
         private void TrackCursor()
         {
@@ -83,9 +84,9 @@ namespace Core.Player
         {
             if (!_model.IsDead) _model.Hit();
         }
-        public void Update(float deltaTime)
+        public void Update()
         {
-            ProcessMovementInput(deltaTime);
+            ProcessMovementInput();
 
             TrackCursor();
         }

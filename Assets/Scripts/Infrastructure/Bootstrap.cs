@@ -34,10 +34,8 @@ namespace Core.Infrastructure
         {
             Queue<LazyLoadingOperation> operations = new Queue<LazyLoadingOperation>();
             Func<ILoadingOperation> gameLoadingOperation = () => new SceneLoadingOperation(Constants.Scenes.GameScene);
-            Func<ILoadingOperation> UILoadingOperation = () => new SceneLoadingOperation(Constants.Scenes.UI);
             Func<ILoadingOperation> pressAnyButtonOperation = () => new PressAnyButtonOperation();
             operations.Enqueue(gameLoadingOperation);
-            operations.Enqueue(UILoadingOperation);
             operations.Enqueue(pressAnyButtonOperation);
             _loadingScreenProvider.LoadAndDestroyAsync(operations);
         }

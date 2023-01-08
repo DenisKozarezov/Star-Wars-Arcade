@@ -12,6 +12,7 @@ namespace Core.Units
         private readonly EnemyStateMachine _stateMachine;
 
         public ITransformable Transformable => _view;
+        public bool IsDead => _model.IsDead;
         public event Action<IUnit> WeaponHit;
         public event Action<EnemyController> Disposed;
 

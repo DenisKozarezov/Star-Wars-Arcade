@@ -23,7 +23,7 @@ namespace Core.Models
     }
 }
 
-namespace Core.Infrastructure
+namespace Core.Infrastructure.Installers
 {
     [CreateAssetMenu(menuName = "Configuration/Settings/Game Settings")]
     public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>

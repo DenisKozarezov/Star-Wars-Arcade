@@ -8,7 +8,9 @@ namespace Core
 
         public struct Scenes
         {
-            public const string GameScene = "Game";
+            public const int MainMenu = 1;
+            public const int GameScene = 2;
+            public const int UI = 3;
         }
     }
 }

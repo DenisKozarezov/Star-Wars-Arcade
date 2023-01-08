@@ -5,19 +5,12 @@ using Core.Models;
 using Core.Units;
 using Core.UI;
 using Core.Weapons;
-using Core.Models.Units;
 using Core.Player;
 
-namespace Core.Infrastructure
+namespace Core.Infrastructure.Installers
 {
     public class GameBootstrapInstaller : MonoInstaller
     {
-        [SerializeField]
-        private ScoreCounter _scoreCounter;
-        [Inject]
-        private GameSettings _gameSettings;
-        [Inject]
-        private EnemyConfig _enemySettings;
         [Inject]
         private WeaponsSettings _weaponsSettings;
         [SerializeField]
@@ -27,7 +20,6 @@ namespace Core.Infrastructure
         {
             BindPools();
             BindPlayer();
-            BindUI();
             BindEnemy();
             BindGame();
         }
@@ -36,10 +28,6 @@ namespace Core.Infrastructure
         {
             Container.BindInterfacesAndSelfTo<PlayerFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<StandaloneInputController>().AsSingle();
-        }
-        private void BindUI()
-        {
-            Container.Bind<ScoreCounter>().FromInstance(_scoreCounter).AsSingle();
         }
         private void BindEnemy()
         {

@@ -33,15 +33,11 @@ namespace Core
             _enemySpawner.Disable();
             _enemySpawner.Dispose();
 
-#if UNITY_EDITOR
-            Debug.Log("Player died!");
-#endif
+            Logger.Debug("Player died!");
         }
         private void OnPlayerKilledEnemy(IUnit unit)
         {
-#if UNITY_EDITOR
-            Debug.Log("Enemy killed!");
-#endif
+            Logger.Debug("Enemy killed!");
         }
 
         void IInitializable.Initialize()

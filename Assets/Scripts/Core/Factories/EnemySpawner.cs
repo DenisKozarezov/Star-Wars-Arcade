@@ -69,7 +69,7 @@ namespace Core.Units
         }
         public void Dispose()
         {
-            foreach (EnemyController enemy in _enemies) enemy.Dispose();
+            while (_enemies.Count > 0) _enemies.First.Value.Dispose();
         }
     }
 }

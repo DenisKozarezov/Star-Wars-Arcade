@@ -18,4 +18,7 @@ MonoBehaviour:
   <BulletForce>k__BackingField: 30
   <BulletLifetime>k__BackingField: 2.5
   <ShootSounds>k__BackingField:
-  - {fileID: 8300000, guid: f9517356afb533a41b9e7cb6f155031e, type: 3}
+  - Clip: {fileID: 8300000, guid: 34c638d8d99ccfd44a261f13505ab317, type: 3}
+    Volume: 0.3
+  - Clip: {fileID: 8300000, guid: aa66f043685a31e4bb90d0b6128bc3e1, type: 3}
+    Volume: 0.3

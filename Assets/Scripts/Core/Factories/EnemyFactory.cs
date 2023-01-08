@@ -50,7 +50,7 @@ namespace Core.Units
             view.SetActive(false);
             view.GetComponent<ContactCollider>().Owner = controller;
 
-            BulletGunModel bulletGunModel = new BulletGunModel(model.ReloadTime, _weaponSettings.BulletGunConfig, view.FirePoint, BulletType.Player);
+            BulletGunModel bulletGunModel = new BulletGunModel(model.ReloadTime, _weaponSettings.BulletGunConfig, view.FirePoint, BulletType.Enemy);
             BulletGun bulletGun = _container.Instantiate<BulletGun>(new object[] { bulletGunModel });
 
             controller.SetPrimaryWeapon(bulletGun);

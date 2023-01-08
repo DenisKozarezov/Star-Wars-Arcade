@@ -3,7 +3,6 @@ using Zenject;
 using Core.Input;
 using Core.Models;
 using Core.Units;
-using Core.UI;
 using Core.Weapons;
 using Core.Player;
 
@@ -41,7 +40,7 @@ namespace Core.Infrastructure.Installers
         private void BindPools()
         {
             Container.BindFactory<Vector2, Quaternion, float, float, BulletType, Bullet, Bullet.Factory>().FromMonoPoolableMemoryPool(x => x
-                .WithInitialSize(20)
+                .WithInitialSize(10)
                 .FromComponentInNewPrefab(_weaponsSettings.BulletGunConfig.Prefab)
                 .UnderTransformGroup("Bullets"));
 

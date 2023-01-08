@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1835b714245f1174a92dfd255ca2621c, type: 3}
+  m_Name: Audio Settings
+  m_EditorClassIdentifier: 
+  _audioSettings:
+    SoundsPoolCapacity: 10
+    GameSounds:
+      GameBackground:
+        Clip: {fileID: 8300000, guid: c5a6af7adb029df4ba0967bc4de9e7ac, type: 3}
+        Volume: 0.6
+      GameLevelStart:
+        Clip: {fileID: 0}
+        Volume: 0
+      GameOver:
+        Clip: {fileID: 0}
+        Volume: 0
+    UISounds:
+      UIClick:
+        Clip: {fileID: 0}
+        Volume: 0
+    PlayerSounds:
+      PlayerOnHit:
+        Clip: {fileID: 0}
+        Volume: 0

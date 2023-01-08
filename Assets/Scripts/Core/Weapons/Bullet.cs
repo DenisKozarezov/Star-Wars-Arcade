@@ -16,7 +16,6 @@ namespace Core.Weapons
     [RequireComponent(typeof(Collider2D))]
     public class Bullet : MonoBehaviour, IPoolable<Vector2, Quaternion, float, float, BulletType, IMemoryPool>, IDisposable
     {
-        private Collider2D _collider;
         private IMemoryPool _pool;
         private float _bulletForce;
         private Coroutine _lifetimeCoroutine;
@@ -25,10 +24,6 @@ namespace Core.Weapons
         public event Action<Bullet, IUnit> Hit;
         public event Action<Bullet> Disposed;
 
-        private void Awake()
-        {
-            _collider = GetComponent<Collider2D>();
-        }
         private void Update()
         {
             transform.Translate(transform.up * _bulletForce * Time.deltaTime, Space.World);
@@ -39,12 +34,6 @@ namespace Core.Weapons
             {
                 Hit?.Invoke(this, collider.Owner);
             }
-        }
-        private void Enable(bool isEnabled)
-        {
-            _collider.enabled = isEnabled;
-            _collider.attachedRigidbody.simulated = isEnabled;
-            _collider.attachedRigidbody.constraints = isEnabled ? RigidbodyConstraints2D.FreezeRotation : RigidbodyConstraints2D.FreezeAll;
         }
         public void Dispose()
         {
@@ -60,7 +49,6 @@ namespace Core.Weapons
         void IPoolable<Vector2, Quaternion, float, float, BulletType, IMemoryPool>.OnDespawned()
         {
             _pool = null;
-            Enable(false);
         }
         void IPoolable<Vector2, Quaternion, float, float, BulletType, IMemoryPool>.OnSpawned(Vector2 position, Quaternion rotation, float force, float lifetime, BulletType bulletType, IMemoryPool pool)
         {
@@ -68,7 +56,7 @@ namespace Core.Weapons
             transform.position = position;
             transform.rotation = rotation;
             _bulletForce = force;
-            Enable(true);
+            gameObject.layer = bulletType == BulletType.Player ? Constants.PlayerLayer : Constants.EnemyLayer;
             _lifetimeCoroutine = StartCoroutine(LifetimeCoroutine(lifetime));
         }
         private IEnumerator LifetimeCoroutine(float lifetime)

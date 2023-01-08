@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Core.Units;
+using Core.Audio;
 
 namespace Core.Weapons
 {
@@ -37,6 +38,9 @@ namespace Core.Weapons
             bullet.Disposed += OnDisposed;
 
             _model.Cooldown.Run(_model.ReloadTime);
+
+            AudioSound sound = _model.BulletGunConfig.ShootSounds.Random();
+            SoundManager.PlayOneShot(sound.Clip, sound.Volume);
         }
 
         private void CreateExplosion(Vector2 position)

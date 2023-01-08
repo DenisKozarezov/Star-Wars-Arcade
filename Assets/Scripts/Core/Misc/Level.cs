@@ -1,6 +1,6 @@
-﻿using Core.Player;
+﻿using Core.Audio;
+using Core.Player;
 using Core.Units;
-using UnityEngine;
 using Zenject;
 
 namespace Core
@@ -10,11 +10,13 @@ namespace Core
         private readonly PlayerFactory _playerFactory;
         private readonly EnemySpawner _enemySpawner;
         private readonly PlayerController _player;
+        private readonly AudioSound _music;
 
-        public Level(PlayerFactory playerFactory, EnemySpawner enemySpawner)
+        public Level(PlayerFactory playerFactory, EnemySpawner enemySpawner, Audio.AudioSettings audio)
         {
             _playerFactory = playerFactory;
             _enemySpawner = enemySpawner;
+            _music = audio.GameSounds.GameBackground;
 
             _player = _playerFactory.Create();
             _player.Died += OnPlayerDead;
@@ -24,6 +26,8 @@ namespace Core
         private void StartGame()
         {
             _enemySpawner.Enable();
+            _player.Enable();
+            SoundManager.PlayMusic(_music.Clip, _music.Volume);
         }
         private void OnPlayerDead()
         {

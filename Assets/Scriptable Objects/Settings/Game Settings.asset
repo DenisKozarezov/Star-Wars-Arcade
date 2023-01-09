@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameSettings:
     GameTime: 300
+  _playerSettings: {fileID: 11400000, guid: 50545ccdc3f2f9149be1b0e045f7ee94, type: 2}
+  _enemySettings:
+    EnemyConfig: {fileID: 11400000, guid: 4cb86f4fc4658ef4a98c6228a61856d2, type: 2}
     EnemiesLimit: 10
     EnemiesSpawnTime: 2
-  _playerSettings: {fileID: 11400000, guid: 50545ccdc3f2f9149be1b0e045f7ee94, type: 2}
-  _enemySettings: {fileID: 11400000, guid: 4cb86f4fc4658ef4a98c6228a61856d2, type: 2}
+    AggressionRadius: 2.96
+    PatrolRadius: 4
   _weaponsSettings:
     BulletGunConfig: {fileID: 11400000, guid: 0d1cc124ab6828743b6a865577ee7dc6, type: 2}

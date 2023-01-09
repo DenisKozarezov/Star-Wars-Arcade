@@ -11,6 +11,7 @@ namespace Core.Units
         public readonly float Velocity;
         public readonly float RotationSpeed;
         public readonly float Deacceleration;
+        public readonly float AggressionRadius;
         public readonly float PatrolRadius;
         public int Health;
         public IWeapon PrimaryWeapon { get; set; }
@@ -22,6 +23,7 @@ namespace Core.Units
             float velocity, 
             float rotationSpeed, 
             float deacceleration, 
+            float aggressionRadius,
             float patrolRadius,
             int maxHealth)
         {
@@ -29,6 +31,7 @@ namespace Core.Units
             Velocity = velocity;
             RotationSpeed = rotationSpeed;
             Deacceleration = deacceleration;
+            AggressionRadius = aggressionRadius;
             PatrolRadius = patrolRadius;
             Health = maxHealth;
             _maxHealth = maxHealth;

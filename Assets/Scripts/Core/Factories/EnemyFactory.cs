@@ -40,6 +40,7 @@ namespace Core.Units
                 _enemySettings.EnemyConfig.Velocity,
                 _enemySettings.EnemyConfig.RotationSpeed,
                 _enemySettings.EnemyConfig.Deacceleration,
+                _enemySettings.AggressionRadius,
                 _enemySettings.PatrolRadius,
                 _enemySettings.EnemyConfig.Health);
             EnemyController controller = new EnemyController(model, view);

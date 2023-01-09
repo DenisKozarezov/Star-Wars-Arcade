@@ -11,9 +11,18 @@ namespace Core.Models
     {
         [Min(0f)]
         public float GameTime;
+    }
+    [Serializable]
+    public sealed class EnemySettings
+    {
+        public EnemyConfig EnemyConfig;
         public byte EnemiesLimit;
         [Min(0f)]
         public float EnemiesSpawnTime;
+        [Min(0f)] 
+        public float AggressionRadius;
+        [Min(0f)] 
+        public float PatrolRadius;
     }
 
     [Serializable]
@@ -34,7 +43,7 @@ namespace Core.Infrastructure.Installers
         [SerializeField]
         private PlayerConfig _playerSettings;
         [SerializeField]
-        private EnemyConfig _enemySettings;
+        private EnemySettings _enemySettings;
         [SerializeField]
         private WeaponsSettings _weaponsSettings;
 

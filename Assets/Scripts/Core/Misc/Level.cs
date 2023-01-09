@@ -26,6 +26,7 @@ namespace Core
             _enemySpawner.EnemyKilled += _gameState.AddScore;
             _player.Enable();
             _player.Died += OnPlayerDead;
+            _gameState.StartTimer();
 
             SoundManager.PlayMusic();
         }
@@ -34,6 +35,7 @@ namespace Core
             _player.Disable();
             _enemySpawner.Disable();
             _enemySpawner.Dispose();
+            _gameState.StopTimer();
 
             SoundManager.StopMusic();
 

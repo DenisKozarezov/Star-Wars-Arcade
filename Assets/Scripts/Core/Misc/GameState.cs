@@ -9,6 +9,7 @@ namespace Core
         private readonly ScoreCounter _scoreCounter;
         private readonly GameTimer _gameTimer;
 
+        private bool _enabled;
         private ushort _score;
         private float _time;
 
@@ -23,16 +24,13 @@ namespace Core
             _score++;
             _scoreCounter.SetScore(_score);
         }
-        public void Reset()
-        {
-            _score = 0;
-            _time = 0f;
-            _scoreCounter.SetScore(0);
-            _gameTimer.SetTime(0f);
-        }
+        public void StartTimer() => _enabled = true;
+        public void StopTimer() => _enabled = false;
 
         void ITickable.Tick()
         {
+            if (!_enabled) return;
+
             _time += Time.deltaTime;
             _gameTimer.SetTime(_time);
         }

@@ -74,11 +74,17 @@ namespace Core.Units
     }
     public class EnemyAttackState : EnemyBaseState
     {
+        private readonly float _velocity;
+        private readonly float _rotationSpeed;
+        private readonly float _deacceleration;
         private readonly float _reloadTime;
         private float _timer;
 
         public EnemyAttackState(IStateMachine<EnemyController> stateMachine, EnemyModel model) : base(stateMachine)
         {
+            _velocity = model.Velocity;
+            _rotationSpeed = model.RotationSpeed;
+            _deacceleration = model.Deacceleration;
             _reloadTime = model.ReloadTime;
         }
         public override void Enter()
@@ -91,6 +97,14 @@ namespace Core.Units
         }
         public override void Update()
         {
+            Vector2 direction = Context.Target.Transformable.Position - Transformable.Position;
+            float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 90f;
+            Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            Quaternion lerpRotation = Quaternion.Slerp(Transformable.Rotation, targetRotation, Time.deltaTime * _rotationSpeed);
+
+            Transformable.Rotate(lerpRotation);
+            Transformable.Translate(direction.normalized, _velocity, _deacceleration);
+
             if (_timer <= _reloadTime) _timer += Time.deltaTime;
             else
             {

@@ -5,12 +5,14 @@ using Core.Weapons;
 
 namespace Core.Units
 {
-    public class EnemyController : IUnit, IPoolable<Vector2>, IDisposable
+    public class EnemyController : IUnit, IEnemy, IPoolable<Vector2>, IDisposable
     {
         private readonly EnemyModel _model;
         private readonly EnemyView _view;
         private readonly EnemyStateMachine _stateMachine;
 
+        public IUnit Target { get; private set; }
+        public bool IsTaunted => Target != null;
         public ITransformable Transformable => _view;
         public event Action<IUnit> WeaponHit;
         public event Action<EnemyController> Disposed;
@@ -47,6 +49,11 @@ namespace Core.Units
         public void Hit()
         {
             if (!_model.IsDead) _model.Hit();
+        }
+        public void Taunt(IUnit unit)
+        {
+            Target = unit;
+            _stateMachine.SwitchState<EnemyAttackState>();
         }
         public void Dispose()
         {

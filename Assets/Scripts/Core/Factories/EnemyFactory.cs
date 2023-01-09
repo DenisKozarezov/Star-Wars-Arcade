@@ -3,7 +3,6 @@ using UnityEngine;
 using Zenject;
 using Core.Models;
 using Core.Weapons;
-using Core.Models.Units;
 
 namespace Core.Units
 {
@@ -16,31 +15,33 @@ namespace Core.Units
     public class EnemyFactory : IEnemyFactory
     {
         private readonly DiContainer _container;
-        private readonly EnemyConfig _enemyConfig;
+        private readonly EnemySettings _enemySettings;
         private readonly WeaponsSettings _weaponSettings;
         private readonly Queue<EnemyController> _pool;
         public bool Empty => _pool.Count == 0;
 
-        public EnemyFactory(DiContainer container, EnemyConfig enemySettings, WeaponsSettings weaponSettings, GameSettings gameSettings)
+        public EnemyFactory(
+            DiContainer container, 
+            EnemySettings enemySettings,
+            WeaponsSettings weaponSettings)
         {
             _container = container;
-            _enemyConfig = enemySettings;
+            _enemySettings = enemySettings;
             _weaponSettings = weaponSettings;
-            _pool = new Queue<EnemyController>(gameSettings.EnemiesLimit);
+            _pool = new Queue<EnemyController>(enemySettings.EnemiesLimit);
 
-            for (int i = 0; i < gameSettings.EnemiesLimit; i++) Create();
+            for (int i = 0; i < enemySettings.EnemiesLimit; i++) Create();
         }
         private EnemyController Create()
         {
-            EnemyView view = _container.InstantiatePrefabForComponent<EnemyView>(_enemyConfig.Prefab);
+            EnemyView view = _container.InstantiatePrefabForComponent<EnemyView>(_enemySettings.EnemyConfig.Prefab);
             EnemyModel model = new EnemyModel(
-                _enemyConfig.ReloadTime,
-                _enemyConfig.Velocity,
-                _enemyConfig.RotationSpeed,
-                _enemyConfig.Deacceleration,
-                _enemyConfig.AggressionRadius,
-                _enemyConfig.PatrolRadius,
-                _enemyConfig.Health);
+                _enemySettings.EnemyConfig.ReloadTime,
+                _enemySettings.EnemyConfig.Velocity,
+                _enemySettings.EnemyConfig.RotationSpeed,
+                _enemySettings.EnemyConfig.Deacceleration,
+                _enemySettings.PatrolRadius,
+                _enemySettings.EnemyConfig.Health);
             EnemyController controller = new EnemyController(model, view);
 
             view.SetActive(false);

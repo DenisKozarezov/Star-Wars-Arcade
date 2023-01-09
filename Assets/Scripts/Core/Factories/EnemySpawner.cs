@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using Core.Models;
+using Core.Player;
 
 namespace Core.Units
 {
@@ -12,15 +13,19 @@ namespace Core.Units
 
         private readonly IEnemyFactory _factory;
         private readonly float _spawnTime;
+        private readonly float _aggressionRadius;
+        private readonly LazyInject<PlayerController> _player;
         private float _timer;
         private bool _enabled;
 
         public event Action EnemyKilled;
          
-        public EnemySpawner(IEnemyFactory factory, GameSettings settings)
+        public EnemySpawner(IEnemyFactory factory, EnemySettings enemySettings, LazyInject<PlayerController> player)
         {
             _factory = factory;
-            _spawnTime = settings.EnemiesSpawnTime;
+            _spawnTime = enemySettings.EnemiesSpawnTime;
+            _player = player;
+            _aggressionRadius = enemySettings.AggressionRadius;
         }
 
         private void OnWeaponHit(IUnit target)
@@ -42,6 +47,10 @@ namespace Core.Units
             enemy.Disposed += OnEnemyDisposed;
             _enemies.AddLast(enemy);
         }
+        private bool HasNearbyEnemy(ITransformable patrollingEnemy, float distance)
+        {
+            return (patrollingEnemy.Position - _player.Value.Transformable.Position).sqrMagnitude <= distance * distance;
+        }
 
         void ITickable.Tick()
         {
@@ -50,6 +59,11 @@ namespace Core.Units
             foreach (EnemyController enemy in _enemies)
             {
                 enemy.Update();
+
+                if (!enemy.IsTaunted && HasNearbyEnemy(enemy.Transformable, _aggressionRadius))
+                {
+                    enemy.Taunt(_player.Value);
+                }
             }
 
             if (!_factory.Empty && _timer >= _spawnTime)

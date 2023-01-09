@@ -48,13 +48,14 @@ namespace Core.Audio
         {
             _audioSource.clip = clip;
             _audioSource.volume = volume;
+            _audioSource.loop = true;
             _audioSource.ignoreListenerPause = true;
             _audioSource.Play();
             _audioSource.DOFade(volume, duration: 1f);
         }
         private void StopMusicInternal()
         {
-            _audioSource.DOFade(0, duration: 1f)
+            _audioSource.DOFade(0f, duration: 1f)
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {

@@ -8,6 +8,7 @@ namespace Core.Units
         private List<IState<EnemyController>> _states;
         private IState<EnemyController> _currentState;
         public EnemyController Context { get; private set; }
+        public IState<EnemyController> CurrentState => _currentState;
 
         public EnemyStateMachine(EnemyController enemy, EnemyModel model)
         {
@@ -20,7 +21,6 @@ namespace Core.Units
             };
             SwitchState<EnemyPatrolState>();
         }
-        public void Update() => _currentState?.Update();
         public void SwitchState<State>() where State : IState<EnemyController>
         {
             _currentState?.Exit();

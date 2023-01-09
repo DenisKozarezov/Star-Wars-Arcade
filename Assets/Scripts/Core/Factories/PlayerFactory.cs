@@ -1,5 +1,4 @@
-﻿using System;
-using Zenject;
+﻿using Zenject;
 using Core.Models;
 using Core.Weapons;
 using Core.Models.Units;
@@ -14,8 +13,6 @@ namespace Core.Player
         private readonly WeaponsSettings _weaponSettings;
         private PlayerController _playerController;
 
-        public event Action EnemyKilled;
-
         public PlayerFactory(DiContainer container, PlayerConfig playerSettings, WeaponsSettings weaponSettings)
         {
             _container = container;
@@ -27,7 +24,7 @@ namespace Core.Player
             PlayerView view = _container.InstantiatePrefabForComponent<PlayerView>(_playerSettings.Prefab);
             PlayerModel model = _container.Instantiate<PlayerModel>(new object[] { _playerSettings.ReloadTime, _playerSettings.Velocity, _playerSettings.RotationSpeed, _playerSettings.Deacceleration, _playerSettings.Health });
             PlayerController controller = new PlayerController(model, view);
-            
+
             controller.WeaponHit += OnWeaponHit;
 
             view.GetComponent<ContactCollider>().Owner = controller;
@@ -41,12 +38,7 @@ namespace Core.Player
             return controller;
         }
 
-        private void OnWeaponHit(IUnit target)
-        {
-            target.Hit();
-
-            if (target.IsDead) EnemyKilled?.Invoke();
-        }
+        private void OnWeaponHit(IUnit target) => target.Hit();
 
         void ITickable.Tick()
         {

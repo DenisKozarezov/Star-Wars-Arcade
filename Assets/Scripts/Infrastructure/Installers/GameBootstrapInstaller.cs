@@ -13,6 +13,8 @@ namespace Core.Infrastructure.Installers
     {
         [SerializeField]
         private ScoreCounter _scoreCounter;
+        [SerializeField]
+        private GameTimer _gameTimer;
         [Inject]
         private WeaponsSettings _weaponsSettings;
         [SerializeField]
@@ -39,8 +41,9 @@ namespace Core.Infrastructure.Installers
         private void BindGame()
         {
             Container.Bind<IInitializable>().To<Level>().AsSingle();
-            Container.Bind<GameState>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameState>().AsSingle();
             Container.Bind<ScoreCounter>().FromInstance(_scoreCounter).AsSingle();
+            Container.Bind<GameTimer>().FromInstance(_gameTimer).AsSingle();
         }
         private void BindPools()
         {

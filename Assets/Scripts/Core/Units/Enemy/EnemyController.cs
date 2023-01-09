@@ -12,7 +12,6 @@ namespace Core.Units
         private readonly EnemyStateMachine _stateMachine;
 
         public ITransformable Transformable => _view;
-        public bool IsDead => _model.IsDead;
         public event Action<IUnit> WeaponHit;
         public event Action<EnemyController> Disposed;
 
@@ -43,25 +42,26 @@ namespace Core.Units
         {
             if (_model.IsDead) return;
 
-            _stateMachine.Update();
+            _stateMachine.CurrentState.Update();
         }
         public void Hit()
         {
-            if (!_model.IsDead)
-            {
-                _model.Hit();
-                Dispose();
-            }
+            if (!_model.IsDead) _model.Hit();
         }
         public void Dispose()
         {
             Disposed?.Invoke(this);
         }
 
-        void IPoolable<Vector2>.OnDespawned() => _view.SetActive(false);
+        void IPoolable<Vector2>.OnDespawned()
+        {
+            _model.Died -= Dispose;
+            _view.SetActive(false);
+        }
         void IPoolable<Vector2>.OnSpawned(Vector2 position)
         {
             _model.Reset();
+            _model.Died += Dispose;
             _view.SetPosition(position);
             _view.SetActive(true);
         }

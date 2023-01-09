@@ -23,8 +23,8 @@ namespace Core
         private void StartGame()
         {
             _enemySpawner.Enable();
-
-            _playerFactory.EnemyKilled += _gameState.AddScore;
+            _enemySpawner.EnemyKilled += _gameState.AddScore;
+            _player.Enable();
             _player.Died += OnPlayerDead;
 
             SoundManager.PlayMusic();
@@ -46,7 +46,7 @@ namespace Core
         }
         void ILateDisposable.LateDispose()
         {
-            _playerFactory.EnemyKilled -= _gameState.AddScore;
+            _enemySpawner.EnemyKilled -= _gameState.AddScore;
             _player.Died -= OnPlayerDead;
         }
     }

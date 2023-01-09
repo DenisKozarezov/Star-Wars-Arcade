@@ -868,6 +868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreCounter: {fileID: 254843869}
+  _gameTimer: {fileID: 1379146019}
   _explosionPrefab: {fileID: 100002, guid: 93a60ba8e409947b1a0334537c8b38c8, type: 3}
 --- !u!1 &1360202088
 GameObject:

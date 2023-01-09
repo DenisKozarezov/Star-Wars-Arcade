@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -5,7 +6,7 @@ using Core.Models;
 
 namespace Core.Units
 {
-    public class EnemySpawner : IInitializable, ITickable
+    public class EnemySpawner : ITickable
     {
         private LinkedList<EnemyController> _enemies = new();
 
@@ -13,6 +14,8 @@ namespace Core.Units
         private readonly float _spawnTime;
         private float _timer;
         private bool _enabled;
+
+        public event Action EnemyKilled;
          
         public EnemySpawner(IEnemyFactory factory, GameSettings settings)
         {
@@ -30,19 +33,16 @@ namespace Core.Units
             enemy.Disposed -= OnEnemyDisposed;
             _factory.Despawn(enemy);
             _enemies.Remove(enemy);
+            EnemyKilled?.Invoke();
         }
         private void SpawnEnemy()
         {
-            EnemyController enemy = _factory.Spawn(position: Random.insideUnitCircle * 5f);
+            EnemyController enemy = _factory.Spawn(position: UnityEngine.Random.insideUnitCircle * 5f);
             enemy.WeaponHit += OnWeaponHit;
             enemy.Disposed += OnEnemyDisposed;
             _enemies.AddLast(enemy);
         }
 
-        void IInitializable.Initialize()
-        {
-            _timer = Time.realtimeSinceStartup;
-        }
         void ITickable.Tick()
         {
             if (!_enabled) return;
@@ -52,11 +52,12 @@ namespace Core.Units
                 enemy.Update();
             }
 
-            if (!_factory.Empty && Time.realtimeSinceStartup - _timer >= _spawnTime)
+            if (!_factory.Empty && _timer >= _spawnTime)
             {
                 SpawnEnemy();
-                _timer = Time.realtimeSinceStartup;
+                _timer = 0f;
             }
+            else _timer += Time.deltaTime;
         }
 
         public void Enable()

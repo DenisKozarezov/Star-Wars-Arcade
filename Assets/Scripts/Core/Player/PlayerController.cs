@@ -11,7 +11,6 @@ namespace Core.Player
         private readonly PlayerView _view;
         private Camera _camera;
 
-        public bool IsDead => _model.IsDead;
         public ITransformable Transformable => _view;
         public event Action<IUnit> WeaponHit;
         public event Action Died;
@@ -61,13 +60,11 @@ namespace Core.Player
         public void Enable()
         {
             _model.InputSystem.Enable();
-            BindWeapon();
             _model.Died += OnDied;
         }
         public void Disable()
         {
             _model.InputSystem.Disable();
-            UnbindWeapon();
             _model.Died -= OnDied;
         }
         public void SetPrimaryWeapon(IWeapon weapon)

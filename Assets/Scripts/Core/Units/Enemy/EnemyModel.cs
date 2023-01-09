@@ -1,9 +1,12 @@
-﻿using Core.Weapons;
+﻿using System;
+using Core.Weapons;
 
 namespace Core.Units
 {
     public class EnemyModel
     {
+        private readonly int _maxHealth;
+
         public readonly float ReloadTime;
         public readonly float Velocity;
         public readonly float RotationSpeed;
@@ -13,6 +16,7 @@ namespace Core.Units
         public int Health;
         public IWeapon PrimaryWeapon { get; set; }
         public bool IsDead => Health == 0;
+        public event Action Died;
 
         public EnemyModel(
             float reloadTime, 
@@ -30,12 +34,17 @@ namespace Core.Units
             AggressionRadius = aggressionRadius;
             PatrolRadius = patrolRadius;
             Health = maxHealth;
+            _maxHealth = maxHealth;
         }
 
-        public void Hit() => Health = 0;
+        public void Hit()
+        {
+            Health = Math.Max(Health - 1, 0);
+            if (IsDead) Died?.Invoke();
+        }
         public void Reset()
         {
-            Health = 1;
+            Health = _maxHealth;
         }
     }
 }

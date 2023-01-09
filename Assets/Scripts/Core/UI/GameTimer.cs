@@ -15,15 +15,11 @@ namespace Core.UI
         {
             _text = GetComponent<TextMeshProUGUI>();
         }
-        private void Update()
-        {
-            SetText(Time.realtimeSinceStartup);
-        }
         private void OnDestroy()
         {
             _builder.Clear();
         }
-        private void SetText(float elapsedTime)
+        public void SetTime(float elapsedTime)
         {
             _builder.Clear();
 

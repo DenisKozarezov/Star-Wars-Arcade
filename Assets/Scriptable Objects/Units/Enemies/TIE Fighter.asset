@@ -15,9 +15,9 @@ MonoBehaviour:
   <DisplayName>k__BackingField: TIE Fighter
   <Description>k__BackingField: 
   <Health>k__BackingField: 1
-  <Velocity>k__BackingField: 28.5
+  <Velocity>k__BackingField: 24.3
   <RotationSpeed>k__BackingField: 2.4
-  <Deacceleration>k__BackingField: 0.21
+  <Deacceleration>k__BackingField: 0.369
   <ReloadTime>k__BackingField: 1.17
   <Prefab>k__BackingField: {fileID: 5288292979721126965, guid: 4a6e71c929f233c46aa519b12c332788, type: 3}
   <AggressionRadius>k__BackingField: 1.5

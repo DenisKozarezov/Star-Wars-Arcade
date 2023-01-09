@@ -10,6 +10,7 @@ namespace Core
     public interface IStateMachine<T> where T : class
     {
         T Context { get; }
+        IState<T> CurrentState { get; }
         void SwitchState<State>() where State : IState<T>;
     }
 }

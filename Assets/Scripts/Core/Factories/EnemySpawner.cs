@@ -28,10 +28,7 @@ namespace Core.Units
             _aggressionRadius = enemySettings.AggressionRadius;
         }
 
-        private void OnWeaponHit(IUnit target)
-        {
-            target.Hit();
-        }
+        private void OnWeaponHit(IUnit target) => target.Hit();
         private void OnEnemyDisposed(EnemyController enemy)
         {
             enemy.WeaponHit -= OnWeaponHit;

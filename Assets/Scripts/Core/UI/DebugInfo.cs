@@ -30,11 +30,11 @@ namespace Core.UI
 
         private void SetCoordinates(Vector2 coordinates)
         {
-            _coordinates.text = $"X: {coordinates.x.ToString("F")} Y: {coordinates.y.ToString("F")}";
+            _coordinates.text = string.Format("X: {0:F} Y: {1:F}", coordinates.x, coordinates.y);
         }
         private void SetVelocity(float velocity)
         {
-            _velocity.text = $"Velocity: {velocity.ToString("F3")}";
+            _velocity.text = string.Format("Velocity: {0:F3}", velocity);
         }
     }
 }

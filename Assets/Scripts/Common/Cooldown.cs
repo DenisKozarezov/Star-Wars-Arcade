@@ -2,7 +2,7 @@
 
 namespace Core
 {
-    public class Cooldown
+    public sealed class Cooldown
     {
         private float _duration;
         private float _startTime;

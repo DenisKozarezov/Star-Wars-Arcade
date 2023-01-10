@@ -4,9 +4,8 @@ using Core.Weapons;
 
 namespace Core.Player
 {
-    public class PlayerModel
+    public sealed class PlayerModel
     {
-        private int Health;
         public readonly float ReloadTime;
         public readonly float Velocity;
         public readonly float RotationSpeed;
@@ -15,7 +14,9 @@ namespace Core.Player
         public IWeapon PrimaryWeapon { get; set; }
         public IWeapon SecondaryWeapon { get; set; }
         public bool IsDead => Health == 0;
+        public int Health;
 
+        public event Action<int> HealthChanged;
         public event Action Died;
 
         public PlayerModel(float reloadTime, float velocity, float rotationSpeed, float deacceleration, int maxHealth, IInputSystem inputSystem)
@@ -31,6 +32,9 @@ namespace Core.Player
         public void Hit()
         {
             Health = Math.Max(Health - 1, 0);
+
+            HealthChanged?.Invoke(Health);
+
             if (IsDead) Died?.Invoke();
         }
     }

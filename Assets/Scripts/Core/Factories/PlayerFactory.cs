@@ -34,7 +34,8 @@ namespace Core.Player
 
             controller.SetPrimaryWeapon(bulletGun);
             _playerController = controller;
-            _container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
+            _container.Bind<PlayerController>().FromInstance(controller).AsSingle();
+            _container.Bind<PlayerModel>().FromInstance(model).AsSingle();
             return controller;
         }
 

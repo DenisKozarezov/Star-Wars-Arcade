@@ -3,7 +3,7 @@ using Core.Weapons;
 
 namespace Core.Units
 {
-    public class EnemyModel
+    public sealed class EnemyModel
     {
         private readonly int _maxHealth;
 

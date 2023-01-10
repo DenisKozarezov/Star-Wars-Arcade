@@ -64,6 +64,7 @@ namespace Core.Units
         {
             _model.Died -= Dispose;
             _view.SetActive(false);
+            Target = null;
         }
         void IPoolable<Vector2>.OnSpawned(Vector2 position)
         {
@@ -71,6 +72,7 @@ namespace Core.Units
             _model.Died += Dispose;
             _view.SetPosition(position);
             _view.SetActive(true);
+            _stateMachine.SwitchState<EnemyPatrolState>();
         }
     }
 }

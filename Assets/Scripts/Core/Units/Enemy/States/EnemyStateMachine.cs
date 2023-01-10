@@ -13,13 +13,11 @@ namespace Core.Units
         public EnemyStateMachine(EnemyController enemy, EnemyModel model)
         {
             Context = enemy;
-
             _states = new List<IState<EnemyController>>()
             {
                 new EnemyPatrolState(this, model),
                 new EnemyAttackState(this, model)
             };
-            SwitchState<EnemyPatrolState>();
         }
         public void SwitchState<State>() where State : IState<EnemyController>
         {

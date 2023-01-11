@@ -6,7 +6,7 @@ namespace Core.Loading
     {
         string Description { get; }
         float Progress { get; }
-        bool IsComplete { get; }
+        bool IsCompleted { get; }
         Task AwaitForLoad();
     }
 }

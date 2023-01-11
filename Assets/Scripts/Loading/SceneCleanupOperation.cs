@@ -8,7 +8,7 @@ namespace Core.Loading
         private readonly int _buildIndex;
         public string Description => "Cleaning scene...";
         public float Progress { get; private set; }
-        public bool IsComplete => Progress == 1f;
+        public bool IsCompleted => Progress == 1f;
 
         public SceneCleanupOperation(int buildIndex)
         {
@@ -22,7 +22,7 @@ namespace Core.Loading
 #if UNITY_EDITOR
             if (operation == null)
             {
-                Logger.Debug($"The scene with such index <b><color=yellow>{_buildIndex}</color></b> is not loaded yet.", Logger.LogType.Warning);
+                Logger.Debug($"Unable to clean the scene with such index <b><color=yellow>{_buildIndex}</color></b>.", Logger.LogType.Warning);
             }
 #endif
 

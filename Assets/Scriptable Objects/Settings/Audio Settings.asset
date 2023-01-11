@@ -22,13 +22,13 @@ MonoBehaviour:
         Clip: {fileID: 0}
         Volume: 0
       GameOver:
-        Clip: {fileID: 0}
-        Volume: 0
+        Clip: {fileID: 8300000, guid: e4266b853803f324fabfa8d29e2d1c57, type: 3}
+        Volume: 0.2
     UISounds:
       UIClick:
         Clip: {fileID: 0}
         Volume: 0
     PlayerSounds:
       PlayerOnHit:
-        Clip: {fileID: 0}
-        Volume: 0
+        Clip: {fileID: 8300000, guid: f9517356afb533a41b9e7cb6f155031e, type: 3}
+        Volume: 0.4

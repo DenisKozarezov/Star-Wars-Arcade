@@ -14,8 +14,8 @@ namespace Core.Units
         public IUnit Target { get; private set; }
         public bool IsTaunted => Target != null;
         public ITransformable Transformable => _view;
-        public event Action<IUnit> WeaponHit;
         public event Action<EnemyController> Disposed;
+        public event Action<IUnit> WeaponHit;
 
         public EnemyController(EnemyModel enemyModel, EnemyView enemyView)
         {

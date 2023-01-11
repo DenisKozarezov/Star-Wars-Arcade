@@ -11,12 +11,18 @@ namespace Core
         private readonly EnemySpawner _enemySpawner;
         private readonly GameState _gameState;
         private readonly PlayerController _player;
+        private readonly AudioSound _gameOverSound;
 
-        public Level(PlayerFactory playerFactory, EnemySpawner enemySpawner, GameState gameState)
+        public Level(
+            PlayerFactory playerFactory, 
+            EnemySpawner enemySpawner, 
+            GameState gameState, 
+            AudioSettings audioSetttings)
         {
             _playerFactory = playerFactory;
             _enemySpawner = enemySpawner;
             _gameState = gameState;
+            _gameOverSound = audioSetttings.GameSounds.GameOver;
             _player = _playerFactory.Create();
         }
 
@@ -38,6 +44,7 @@ namespace Core
             _gameState.StopTimer();
 
             SoundManager.StopMusic();
+            SoundManager.PlayOneShot(_gameOverSound.Clip, _gameOverSound.Volume);
 
             Logger.Debug("Player <b><color=yellow>died</color></b>!");
         }

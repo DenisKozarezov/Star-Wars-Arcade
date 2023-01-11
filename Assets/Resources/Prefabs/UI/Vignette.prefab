@@ -11,10 +11,8 @@ GameObject:
   - component: {fileID: 382989928513712626}
   - component: {fileID: 6700095301505974556}
   - component: {fileID: 3716997445835626105}
-  - component: {fileID: 5098973609240774494}
   - component: {fileID: 8097667266212054087}
   - component: {fileID: 1796269254205719433}
-  - component: {fileID: 6088239654553182593}
   m_Layer: 5
   m_Name: Vignette
   m_TagString: Untagged
@@ -86,23 +84,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &5098973609240774494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 382989928513712627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!222 &8097667266212054087
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -138,15 +119,3 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &6088239654553182593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 382989928513712627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bab7ae9d47b264a468d223f8f44e27e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

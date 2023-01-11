@@ -9,7 +9,7 @@ namespace Core.Loading
         private readonly int _buildIndex;
         public string Description => "Loading scene...";
         public float Progress { get; private set; }
-        public bool IsComplete => Progress == 1f;
+        public bool IsCompleted => Progress == 1f;
 
         public SceneLoadingOperation(int buildIndex)
         {

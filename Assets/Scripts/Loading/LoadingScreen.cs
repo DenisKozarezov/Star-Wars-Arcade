@@ -27,17 +27,21 @@ namespace Core.Loading
 
                 ResetFill();
                 _description.text = loadingOperation.Description;
-                while (!loadingOperation.IsComplete)
+                while (!loadingOperation.IsCompleted)
                 {
-                    SetFillAmount(loadingOperation.Progress);
                     await loadingOperation.AwaitForLoad();
+                    SetFillAmount(loadingOperation.Progress);
                 }
+                await Task.Delay(TimeSpan.FromSeconds(_progressBarSpeed));
             }
         }
         private void SetFillAmount(float value)
         {
             _tweener?.Kill();
-            _tweener = _progressBar.DOFillAmount(value, _progressBarSpeed);
+            _tweener = _progressBar.
+                DOFillAmount(value, _progressBarSpeed).
+                SetLink(gameObject).
+                SetEase(Ease.Linear);
         }
         private void ResetFill()
         {

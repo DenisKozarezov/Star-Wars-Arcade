@@ -6,11 +6,11 @@ namespace Core.Loading
     {
         public string Description => "Press any button...";
         public float Progress { get; private set; }
-        public bool IsComplete => Progress == 1f;
+        public bool IsCompleted => UnityEngine.Input.anyKeyDown;
 
         public async Task AwaitForLoad()
         {
-            while (!UnityEngine.Input.anyKeyDown)
+            while (!IsCompleted)
             {
                 await Task.Yield();
             }

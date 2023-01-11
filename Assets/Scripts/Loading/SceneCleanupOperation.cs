@@ -22,7 +22,7 @@ namespace Core.Loading
 #if UNITY_EDITOR
             if (operation == null)
             {
-                Logger.Debug("<b><color=yellow>Please, initialize project with Bootstrap scene when you transite between scenes in Playmode.</color></b>", Logger.LogType.Warning);
+                Logger.Debug($"The scene with such index <b><color=yellow>{_buildIndex}</color></b> is not loaded yet.", Logger.LogType.Warning);
             }
 #endif
 

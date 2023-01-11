@@ -40,12 +40,6 @@ namespace Core.Units
             _model.PrimaryWeapon.Hit += OnWeaponHit;
         }
         public void Shoot() => _model.PrimaryWeapon.Shoot();
-        public void Update()
-        {
-            if (_model.IsDead) return;
-
-            _stateMachine.CurrentState.Update();
-        }
         public void Hit()
         {
             if (!_model.IsDead) _model.Hit();
@@ -58,6 +52,12 @@ namespace Core.Units
         public void Dispose()
         {
             Disposed?.Invoke(this);
+        }
+        public void Update()
+        {
+            if (_model.IsDead) return;
+
+            _stateMachine.CurrentState.Update();
         }
 
         void IPoolable<Vector2>.OnDespawned()

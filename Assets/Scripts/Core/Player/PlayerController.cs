@@ -83,9 +83,12 @@ namespace Core.Player
         }
         public void Update()
         {
-            ProcessMovementInput();
+            if (_model.InputSystem.Enabled)
+            {
+                ProcessMovementInput();
 
-            TrackCursor();
+                TrackCursor();
+            }
         }
     }
 }

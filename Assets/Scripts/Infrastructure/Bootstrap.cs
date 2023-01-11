@@ -33,10 +33,8 @@ namespace Core.Infrastructure
         private void LoadProcess()
         {
             Queue<LazyLoadingOperation> operations = new Queue<LazyLoadingOperation>();
-            Func<ILoadingOperation> gameLoadingOperation = () => new SceneLoadingOperation(Constants.Scenes.GameScene);
-            Func<ILoadingOperation> pressAnyButtonOperation = () => new PressAnyButtonOperation();
-            operations.Enqueue(gameLoadingOperation);
-            operations.Enqueue(pressAnyButtonOperation);
+            Func<ILoadingOperation> menuLoadingOperation = () => new SceneLoadingOperation(Constants.Scenes.MainMenu);
+            operations.Enqueue(menuLoadingOperation);
             _loadingScreenProvider.LoadAndDestroyAsync(operations);
         }
     }
